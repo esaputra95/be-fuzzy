@@ -1,11 +1,11 @@
+import { SubVariablesInterface, SubVariablesQueryInterface } from "#root/interfaces/SubVariableInterface";
 import Model from "#root/services/PrismaService";
 import { Request, Response } from "express";
 import { Prisma } from "@prisma/client";
 import { handleValidationError } from "#root/helpers/handleValidationError";
 import { errorType } from "#root/helpers/errorType";
-import { ClassTypeQueryInterface } from "#root/interfaces/ClassTypeInterface";
 
-const getData = async (req:Request<{}, {}, {}, ClassTypeQueryInterface>, res:Response) => {
+const getData = async (req:Request<{}, {}, {}, SubVariablesQueryInterface>, res:Response) => {
     try {
         const query = req.query;
         // PAGING
@@ -15,7 +15,6 @@ const getData = async (req:Request<{}, {}, {}, ClassTypeQueryInterface>, res:Res
         // FILTER
         let filter:any= []
         query.name ? filter = [...filter, {name: { contains: query.name }}] : null
-        query.code ? filter = [...filter, {code: { contains: query.code }}] : null
         if(filter.length > 0){
             filter = {
                 OR: [
@@ -23,23 +22,26 @@ const getData = async (req:Request<{}, {}, {}, ClassTypeQueryInterface>, res:Res
                 ]
             }
         }
-        const data = await Model.classTypes.findMany({
+        const data = await Model.subVariables.findMany({
             where: {
                 ...filter
+            },
+            include: {
+                variables: true
             },
             skip: skip,
             take: take
         });
-        const total = await Model.classTypes.count({
+        const total = await Model.subVariables.count({
             where: {
                 ...filter
             }
         })
         res.status(200).json({
             status: true,
-            message: "successfully in getting class type data",
+            message: "successful in getting sub variable data",
             data: {
-                users: data,
+                subVariables: data,
                 info:{
                     page: page,
                     limit: take,
@@ -48,6 +50,8 @@ const getData = async (req:Request<{}, {}, {}, ClassTypeQueryInterface>, res:Res
             }
         })
     } catch (error) {
+        console.log({error});
+        
         let message = errorType
         message.message.msg = `${error}`
         res.status(message.status).json({
@@ -62,12 +66,14 @@ const getData = async (req:Request<{}, {}, {}, ClassTypeQueryInterface>, res:Res
 const postData = async (req:Request, res:Response) => {
     try {
         const data = { ...req.body};
-        await Model.classTypes.create({data: data});
+        await Model.subVariables.create({data: data});
         res.status(200).json({
             status: true,
-            message: 'successfully in created class type data'
+            message: 'successful in created sub variable data'
         })
     } catch (error) {
+        console.log({error});
+        
         let message = errorType
         message.message.msg = `${error}`
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -85,17 +91,19 @@ const postData = async (req:Request, res:Response) => {
 const updateData = async (req:Request, res:Response) => {
     try {
         const data = { ...req.body};
-        await Model.classTypes.update({
+        await Model.subVariables.update({
             where: {
-                id: req.params.id
+                id: parseInt(req.params.id+'')
             },
             data: data
         });
         res.status(200).json({
             status: true,
-            message: 'successful in updated class type data'
+            message: 'successful in updated sub variable data'
         })
     } catch (error) {
+        console.log({error});
+        
         let message = errorType
         message.message.msg = `${error}`
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -110,16 +118,16 @@ const updateData = async (req:Request, res:Response) => {
     }
 }
 
-const deleteData = async (req:Request, res:Response)=> {
+const deleteData = async (req:Request<SubVariablesInterface>, res:Response)=> {
     try {
-        await Model.classTypes.delete({
+        await Model.subVariables.delete({
             where: {
-                id: req.params.id
+                id: parseInt(req.params.id+'')
             }
         })
         res.status(200).json({
             status: false,
-            message: 'successfully in deleted class type data'
+            message: 'successfully in deleted sub variable data'
         })
     } catch (error) {
         let message = {
@@ -138,22 +146,24 @@ const deleteData = async (req:Request, res:Response)=> {
     }
 }
 
-const getDataById = async (req:Request, res:Response) => {
+const getDataById = async (req:Request<SubVariablesInterface>, res:Response) => {
     try {
-        const model = await Model.classTypes.findUnique({
+        const model = await Model.subVariables.findUnique({
             where: {
-                id: req.params.id
+                id: parseInt(req.params.id+'')
             }
         })
         if(!model) throw new Error('data not found')
         res.status(200).json({
             status: true,
-            message: 'successfully in get class type data',
+            message: 'successfully in get sub variable data',
             data: {
-                users: model
+                subVariable: model
             }
         })
     } catch (error) {
+        console.log({error});
+        
         let message = {
             status:500,
             message: { msg: `${error}` }
@@ -170,10 +180,50 @@ const getDataById = async (req:Request, res:Response) => {
     }
 }
 
+const getDataSelect = async (req:Request<{}, {}, {}, SubVariablesQueryInterface>, res:Response) => {
+    try {
+        const query = req.query
+        let filter:any= []
+        query.name ? filter = [...filter, {name: { contains: query.name }}] : null
+        const data = await Model.subVariables.findMany({
+            where: {
+                name: {
+                    contains: query.name ?? ''
+                }
+            },
+            take: 20
+        })
+        let response:any=[]
+        for (const value of data) {
+            response = [...response, {
+                value: value.id,
+                label: value.name
+            }]
+        }
+        res.status(200).json({
+            status: true,
+            message: "successful in getting sub variable data",
+            data: {
+                subVariables: response
+            }
+        })
+    } catch (error) {
+        let message = errorType
+        message.message.msg = `${error}`
+        res.status(message.status).json({
+            status: false,
+            errors: [
+                message.message
+            ]
+        })
+    }
+}
+
 export {
     getData,
     postData,
     updateData,
     deleteData,
-    getDataById
+    getDataById,
+    getDataSelect
 }

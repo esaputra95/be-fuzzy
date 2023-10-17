@@ -1,17 +1,17 @@
+import { KnowledgeManagementsInterface, KnowledgeManagementsQueryInterface } from "#root/interfaces/knowledgeManagement/KnowledgeManagementInterface";
 import Model from "#root/services/PrismaService";
 import { Request, Response } from "express";
 import { Prisma } from "@prisma/client";
 import { handleValidationError } from "#root/helpers/handleValidationError";
 import { errorType } from "#root/helpers/errorType";
-import { GuidanceTypeQueryInterface } from "#root/interfaces/GuidanceTypeInterface";
 
-const getData = async (req:Request<{}, {}, {}, GuidanceTypeQueryInterface>, res:Response) => {
+const getData = async (req:Request<{}, {}, {}, KnowledgeManagementsQueryInterface>, res:Response) => {
     try {
         const query = req.query;
         // PAGING
-        const take = query.limit ?? 20
-        const page = query.page ?? 1 ;
-        const skip = (page-1)*take
+        const take:number = parseInt(query.limit ?? 20 )
+        const page:number = parseInt(query.page ?? 1 );
+        const skip:number = (page-1)*take
         // FILTER
         let filter:any= []
         query.name ? filter = [...filter, {name: { contains: query.name }}] : null
@@ -22,23 +22,28 @@ const getData = async (req:Request<{}, {}, {}, GuidanceTypeQueryInterface>, res:
                 ]
             }
         }
-        const data = await Model.guidanceTypes.findMany({
+        const data = await Model.knowledgeManagement.findMany({
             where: {
                 ...filter
+            },
+            include: {
+                subVariables: true,
+                indicators: true,
+                factors: true
             },
             skip: skip,
             take: take
         });
-        const total = await Model.guidanceTypes.count({
+        const total = await Model.knowledgeManagement.count({
             where: {
                 ...filter
             }
         })
         res.status(200).json({
             status: true,
-            message: "successfully in getting guidance type data",
+            message: "successful in getting KnowledgeManagement data",
             data: {
-                users: data,
+                knowledgeManagements: data,
                 info:{
                     page: page,
                     limit: take,
@@ -60,11 +65,21 @@ const getData = async (req:Request<{}, {}, {}, GuidanceTypeQueryInterface>, res:
 
 const postData = async (req:Request, res:Response) => {
     try {
-        const data = { ...req.body};
-        await Model.guidanceTypes.create({data: data});
+        const data = [...req.body.indicators];
+        // await Model.knowledgeManagement.create({data: data});
+        for (const value of data) {
+            await Model.knowledgeManagement.create({
+                data: {
+                    ...value,
+                    subVariableId: req.body.subVariableId,
+                    factorId: req.body.factorId
+                }
+            })
+        }
+        
         res.status(200).json({
             status: true,
-            message: 'successfully in created guidance type data'
+            message: 'successful in created KnowledgeManagement data'
         })
     } catch (error) {
         let message = errorType
@@ -84,15 +99,15 @@ const postData = async (req:Request, res:Response) => {
 const updateData = async (req:Request, res:Response) => {
     try {
         const data = { ...req.body};
-        await Model.guidanceTypes.update({
+        await Model.knowledgeManagement.update({
             where: {
-                id: req.params.id
+                id: parseInt(req.params.id+'')
             },
             data: data
         });
         res.status(200).json({
             status: true,
-            message: 'successful in updated guidance type data'
+            message: 'successful in updated KnowledgeManagement data'
         })
     } catch (error) {
         let message = errorType
@@ -109,16 +124,16 @@ const updateData = async (req:Request, res:Response) => {
     }
 }
 
-const deleteData = async (req:Request, res:Response)=> {
+const deleteData = async (req:Request<KnowledgeManagementsInterface>, res:Response)=> {
     try {
-        await Model.guidanceTypes.delete({
+        await Model.knowledgeManagement.delete({
             where: {
-                id: req.params.id
+                id: parseInt(req.params.id+'')
             }
         })
         res.status(200).json({
             status: false,
-            message: 'successfully in deleted guidance type data'
+            message: 'successfully in deleted KnowledgeManagement data'
         })
     } catch (error) {
         let message = {
@@ -137,22 +152,24 @@ const deleteData = async (req:Request, res:Response)=> {
     }
 }
 
-const getDataById = async (req:Request, res:Response) => {
+const getDataById = async (req:Request<KnowledgeManagementsInterface>, res:Response) => {
     try {
-        const model = await Model.guidanceTypes.findUnique({
+        const model = await Model.knowledgeManagement.findUnique({
             where: {
-                id: req.params.id
+                id: parseInt(req.params.id+'')
             }
         })
         if(!model) throw new Error('data not found')
         res.status(200).json({
             status: true,
-            message: 'successfully in get guidance type data',
+            message: 'successfully in get KnowledgeManagement data',
             data: {
-                users: model
+                KnowledgeManagement: model
             }
         })
     } catch (error) {
+        console.log({error});
+        
         let message = {
             status:500,
             message: { msg: `${error}` }

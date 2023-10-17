@@ -1,0 +1,1 @@
+export { default as knowledgeManagement } from '#routers/knowledgeManagements/KnowledgeManagementRoute'

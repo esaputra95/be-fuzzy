@@ -1,6 +1,5 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["fullTextIndex", "fullTextSearch"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -8,590 +7,159 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// This model has been renamed to 'ClassMaster' during introspection, because the original name 'class' is reserved.
-model ClassMaster {
-  id          String        @id @db.VarChar(36) @default(uuid())
-  code        String?       @db.VarChar(15)
-  name        String        @db.VarChar(25)
-  classTypeId String?       @db.VarChar(36)
-  method      class_method? @default(online)
-  description String?       @db.VarChar(50)
-  useraCreate String?       @db.VarChar(36)
-  createdAt   DateTime?     @default(now()) @db.DateTime(0)
-  updatedAt   DateTime?     @default(now()) @db.DateTime(0)
-  deletedAt   DateTime?     @db.DateTime(0)
-  classTypes  classTypes?   @relation(fields: [classTypeId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "class_ibfk_2")
-  users       users?        @relation(fields: [useraCreate], references: [id], onUpdate: SetNull, map: "class_ibfk_3")
-  registers   registers[]
-  studyGroups studyGroups[]
-
-  @@index([classTypeId], map: "classTypeId")
-  @@index([useraCreate], map: "useraCreate")
-  @@map("class")
+model factors {
+  id                  Int                   @id @default(autoincrement())
+  code                String?               @db.VarChar(20)
+  name                String?               @db.VarChar(100)
+  description         String?               @db.VarChar(255)
+  knowledgeManagement knowledgeManagement[]
 }
 
-model classTypes {
-  id           String         @id @db.VarChar(36) @default(uuid())
-  code         String?        @db.VarChar(15)
-  name         String?        @db.VarChar(25)
-  price        Decimal?       @db.Decimal(14, 3)
-  description  String?        @db.VarChar(50)
-  useraCreate  String?        @db.VarChar(36)
-  createdAt    DateTime?      @default(now()) @db.DateTime(0)
-  updatedAt    DateTime?      @default(now()) @db.DateTime(0)
-  deletedAt    DateTime?      @db.DateTime(0)
-  ClassMaster ClassMaster[]
-  users        users?         @relation(fields: [useraCreate], references: [id], onUpdate: SetNull, map: "classtypes_ibfk_1")
+model indicators {
+  id                                                               Int                   @id @default(autoincrement())
+  subVariableId                                                    Int
+  code                                                             String?               @db.VarChar(20)
+  name                                                             String?               @db.Text
+  references                                                       String?               @db.VarChar(100)
+  description                                                      String?               @db.Text
+  type                                                             Int?                  @db.SmallInt
+  subVariables                                                     subVariables          @relation(fields: [subVariableId], references: [id], onDelete: Cascade, map: "indicators_ibfk_1")
+  knowledgeManagement                                              knowledgeManagement[]
+  questionnaireFinals_questionnaireFinals_indicatorId1Toindicators questionnaireFinals[] @relation("questionnaireFinals_indicatorId1Toindicators")
+  questionnaireFinals_questionnaireFinals_indicatorId2Toindicators questionnaireFinals[] @relation("questionnaireFinals_indicatorId2Toindicators")
+  questionnaires_questionnaires_indicatorId1Toindicators           questionnaires[]      @relation("questionnaires_indicatorId1Toindicators")
+  questionnaires_questionnaires_indicatorId2Toindicators           questionnaires[]      @relation("questionnaires_indicatorId2Toindicators")
 
-  @@index([useraCreate], map: "useraCreate")
+  @@index([subVariableId], map: "subVariableId")
 }
 
-model courses {
-  id          String      @id @db.VarChar(36) @default(uuid())
-  majorId     String?     @db.VarChar(36)
-  code        String?     @db.VarChar(50)
-  name        String?     @db.VarChar(150)
-  description String?     @db.VarChar(255)
-  userCreate  String?     @db.VarChar(36)
-  createdAt   DateTime?   @default(now()) @db.DateTime(0)
-  updatedAt   DateTime?   @default(now()) @db.DateTime(0)
-  deletedAt   DateTime?   @db.DateTime(0)
-  majors      majors?     @relation(fields: [majorId], references: [id], onDelete: Cascade, map: "courses_ibfk_1")
-  users       users?      @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "courses_ibfk_2")
-  materials   materials[]
+model knowledgeManagement {
+  id                            Int                             @id @default(autoincrement())
+  subVariableId                 Int?
+  factorId                      Int?
+  indicatorId                   Int?
+  reference                     String?                         @db.VarChar(255)
+  knowladgeManagementCompetence knowladgeManagementCompetence[]
+  knowladgeManagementIKU        knowladgeManagementIKU[]
+  factors                       factors?                        @relation(fields: [factorId], references: [id], onDelete: Cascade, map: "knowledgemanagement_ibfk_1")
+  indicators                    indicators?                     @relation(fields: [indicatorId], references: [id], onDelete: Cascade, map: "knowledgemanagement_ibfk_2")
+  subVariables                  subVariables?                   @relation(fields: [subVariableId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "knowledgemanagement_ibfk_3")
 
-  @@index([majorId], map: "majorId")
-  @@index([userCreate], map: "userCreate")
+  @@index([factorId], map: "factorId")
+  @@index([indicatorId], map: "indicatorId")
+  @@index([subVariableId], map: "subVariableId")
 }
 
-model guidanceTypes {
-  id          String              @id @db.VarChar(36) @default(uuid())
-  name        String?             @db.VarChar(150)
-  total       Int?
-  type        guidanceTypes_type?
-  userCreate  String?             @db.VarChar(36)
-  createdAt   DateTime?           @default(now()) @db.DateTime(0)
-  updatedAt   DateTime?           @default(now()) @db.DateTime(0)
-  deletedAt   DateTime?           @db.DateTime(0)
-  users       users?              @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "guidancetypes_ibfk_1")
-  registers   registers[]
-  studyGroups studyGroups[]
+model questionnaireFinals {
+  id                                                      Int          @id @default(autoincrement())
+  respondentId                                            Int?
+  indicatorId1                                            Int?
+  indicatorId2                                            Int?
+  value                                                   Decimal?     @db.Decimal(6, 2)
+  respondents                                             respondents? @relation(fields: [respondentId], references: [id], onDelete: Cascade, map: "questionnairefinals_ibfk_1")
+  indicators_questionnaireFinals_indicatorId1Toindicators indicators?  @relation("questionnaireFinals_indicatorId1Toindicators", fields: [indicatorId1], references: [id], onDelete: Cascade, map: "questionnairefinals_ibfk_2")
+  indicators_questionnaireFinals_indicatorId2Toindicators indicators?  @relation("questionnaireFinals_indicatorId2Toindicators", fields: [indicatorId2], references: [id], onDelete: Cascade, map: "questionnairefinals_ibfk_3")
 
-  @@index([userCreate], map: "userCreate")
+  @@index([indicatorId1], map: "indicatorId1")
+  @@index([indicatorId2], map: "indicatorId2")
+  @@index([respondentId], map: "respondentId")
 }
 
-model locations {
-  id          String      @id @db.VarChar(36) @default(uuid())
-  name        String?     @db.VarChar(150)
-  description String?     @db.VarChar(150)
-  userCreate  String?     @db.VarChar(36)
-  createdAt   DateTime?   @default(now()) @db.DateTime(0)
-  updatedAt   DateTime?   @default(now()) @db.DateTime(0)
-  deletedAt   DateTime?   @db.DateTime(0)
-  users       users?      @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "locations_ibfk_1")
-  registers   registers[]
+model questionnaires {
+  id                                                 Int          @id @default(autoincrement())
+  respondentId                                       Int?
+  indicatorId1                                       Int?
+  indicatorId2                                       Int?
+  value                                              Decimal?     @db.Decimal(6, 2)
+  respondents                                        respondents? @relation(fields: [respondentId], references: [id], onDelete: Cascade, map: "questionnaires_ibfk_1")
+  indicators_questionnaires_indicatorId1Toindicators indicators?  @relation("questionnaires_indicatorId1Toindicators", fields: [indicatorId1], references: [id], onDelete: Cascade, map: "questionnaires_ibfk_2")
+  indicators_questionnaires_indicatorId2Toindicators indicators?  @relation("questionnaires_indicatorId2Toindicators", fields: [indicatorId2], references: [id], onDelete: Cascade, map: "questionnaires_ibfk_3")
 
-  @@index([userCreate], map: "userCreate")
+  @@index([indicatorId1], map: "indicatorId1")
+  @@index([indicatorId2], map: "indicatorId2")
+  @@index([respondentId], map: "respondentId")
 }
 
-model majors {
-  id           String        @id @db.VarChar(36) @default(uuid())
-  universityId String?       @db.VarChar(36)
-  code         String?       @db.VarChar(50)
-  name         String?       @db.VarChar(150)
-  description  String?       @db.VarChar(255)
-  userCreate   String?       @db.VarChar(36)
-  createdAt    DateTime?     @default(now()) @db.DateTime(0)
-  updatedAt    DateTime?     @default(now()) @db.DateTime(0)
-  deletedAt    DateTime?     @db.DateTime(0)
-  courses      courses[]
-  universities universities? @relation(fields: [universityId], references: [id], onDelete: Cascade, map: "majors_ibfk_1")
-  users        users?        @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "majors_ibfk_2")
-
-  @@index([universityId], map: "universityId")
-  @@index([userCreate], map: "userCreate")
+model respondents {
+  id                  Int                   @id @default(autoincrement())
+  name                String?               @db.VarChar(150)
+  nik                 String?               @db.VarChar(50)
+  gender              respondents_gender?
+  position            String?               @db.VarChar(50)
+  speciality          String?               @db.VarChar(150)
+  faculty             Int?
+  university          String?               @db.VarChar(150)
+  questionnaireFinals questionnaireFinals[]
+  questionnaires      questionnaires[]
 }
 
-model materials {
-  id           String         @id @db.VarChar(36) @default(uuid())
-  courseId     String?        @db.VarChar(36)
-  userCreate   String?        @db.VarChar(36)
-  name         String?        @db.VarChar(100)
-  createdAt    DateTime?      @default(now()) @db.DateTime(0)
-  updatedAt    DateTime?      @default(now()) @db.DateTime(0)
-  deletedAt    DateTime?      @db.DateTime(0)
-  courses      courses?       @relation(fields: [courseId], references: [id], onDelete: Cascade, map: "materials_ibfk_1")
-  users        users?         @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "materials_ibfk_2")
-  recordMateri recordMateri[]
+model subVariables {
+  id                            Int                             @id @default(autoincrement())
+  variableId                    Int?
+  code                          String?                         @db.VarChar(20)
+  name                          String?                         @db.VarChar(100)
+  description                   String?                         @db.VarChar(255)
+  km                            subVariables_km?                @default(no)
+  indicators                    indicators[]
+  knowladgeManagementCompetence knowladgeManagementCompetence[]
+  knowladgeManagementIKU        knowladgeManagementIKU[]
+  knowledgeManagement           knowledgeManagement[]
+  variables                     variables?                      @relation(fields: [variableId], references: [id], onDelete: Cascade, map: "subvariables_ibfk_1")
 
-  @@index([courseId], map: "courseId")
-  @@index([userCreate], map: "userCreate")
-}
-
-model packages {
-  id          String      @id @db.VarChar(36) @default(uuid())
-  name        String?     @db.VarChar(150)
-  description String?     @db.VarChar(150)
-  userCreate  String?     @db.VarChar(36)
-  createdAt   DateTime?   @default(now()) @db.DateTime(0)
-  updatedAt   DateTime?   @default(now()) @db.DateTime(0)
-  deletedAt   DateTime?   @db.DateTime(0)
-  users       users?      @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "packages_ibfk_1")
-  registers   registers[]
-
-  @@index([userCreate], map: "userCreate")
-}
-
-model payrollDetails {
-  id         String     @id @db.VarChar(36) @default(uuid())
-  payrollId  String?    @db.VarChar(36)
-  scheduleId String?    @db.VarChar(36)
-  price      Decimal?   @db.Decimal(14, 4)
-  userCreate String?    @db.VarChar(36)
-  createdAt  DateTime?  @default(now()) @db.DateTime(0)
-  updatedAt  DateTime?  @default(now()) @db.DateTime(0)
-  deletedAt  DateTime?  @db.DateTime(0)
-  payrolls   payrolls?  @relation(fields: [payrollId], references: [id], onDelete: Cascade, map: "payrolldetails_ibfk_1")
-  schedules  schedules? @relation(fields: [scheduleId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "payrolldetails_ibfk_2")
-  users      users?     @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "payrolldetails_ibfk_3")
-
-  @@index([payrollId], map: "payrollId")
-  @@index([scheduleId], map: "scheduleId")
-  @@index([userCreate], map: "userCreate")
-}
-
-model payrolls {
-  id                               String           @id @db.VarChar(36) @default(uuid())
-  userId                           String?          @db.VarChar(36)
-  basicSalary                      Decimal?         @db.Decimal(14, 4)
-  sessionSalary                    Decimal?         @db.Decimal(14, 4)
-  total                            Decimal?         @db.Decimal(14, 4)
-  userCreate                       String?          @db.VarChar(36)
-  createdAt                        DateTime?        @default(now()) @db.DateTime(0)
-  updatedAt                        DateTime?        @default(now()) @db.DateTime(0)
-  deletedAt                        DateTime?        @db.DateTime(0)
-  payrollDetails                   payrollDetails[]
-  users_payrolls_userIdTousers     users?           @relation("payrolls_userIdTousers", fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "payrolls_ibfk_1")
-  users_payrolls_userCreateTousers users?           @relation("payrolls_userCreateTousers", fields: [userCreate], references: [id], onUpdate: SetNull, map: "payrolls_ibfk_2")
-
-  @@index([userCreate], map: "userCreate")
-  @@index([userId], map: "userId")
-}
-
-model permissionNames {
-  id         String    @id @db.VarChar(36) @default(uuid())
-  name       String?   @db.VarChar(150)
-  group      String?   @db.VarChar(100)
-  userCreate String?   @db.VarChar(36)
-  createdAt  DateTime? @default(now()) @db.DateTime(0)
-  updatedAt  DateTime? @default(now()) @db.DateTime(0)
-  deletedAt  DateTime? @db.DateTime(0)
-  users      users?    @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "permissionnames_ibfk_1")
-
-  @@index([userCreate], map: "userCreate")
-}
-
-model permissions {
-  id                 String               @id @db.VarChar(36) @default(uuid())
-  name               String?              @db.VarChar(100)
-  action             String?              @db.VarChar(150)
-  userCreate         String?              @db.VarChar(36)
-  createdAt          DateTime?            @default(now()) @db.DateTime(0)
-  updatedAt          DateTime?            @default(now()) @db.DateTime(0)
-  deletedAt          DateTime?            @db.DateTime(0)
-  roleHasPermissions roleHasPermissions[]
-}
-
-model recordMateri {
-  id          String     @id @db.VarChar(36) @default(uuid())
-  date        DateTime?  @db.DateTime(0)
-  studentId   String?    @db.VarChar(36)
-  materiId    String?    @db.VarChar(36)
-  description String?    @db.Text
-  advice      String?    @db.Text
-  userCreate  String?    @db.VarChar(36)
-  createdAt   DateTime?  @default(now()) @db.DateTime(0)
-  updatedAt   DateTime?  @default(now()) @db.DateTime(0)
-  deletedAt   DateTime?  @db.DateTime(0)
-  students    students?  @relation(fields: [studentId], references: [id], onDelete: Cascade, map: "recordmateri_ibfk_1")
-  materials   materials? @relation(fields: [materiId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "recordmateri_ibfk_2")
-  users       users?     @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "recordmateri_ibfk_3")
-
-  @@index([materiId], map: "materiId")
-  @@index([studentId], map: "studentId")
-  @@index([userCreate], map: "userCreate")
-}
-
-model registers {
-  id             String                   @id @db.VarChar(36) @default(uuid())
-  studentId      String?                  @db.VarChar(36)
-  classId        String?                  @db.VarChar(36)
-  university     String?                  @db.VarChar(36)
-  amount         Int?
-  sessionId      String?                  @db.VarChar(36)
-  packageId      String?                  @db.VarChar(36)
-  guidanceTypeId String?                  @db.VarChar(36)
-  locationId     String?                  @db.VarChar(36)
-  schoolYearId   String?                  @db.VarChar(36)
-  status         registers_status?        @default(student)
-  userCreate     String?                  @db.VarChar(36)
-  createdAt      DateTime?                @default(now()) @db.DateTime(0)
-  updatedAt      DateTime?                @default(now()) @db.DateTime(0)
-  deletedAt      DateTime?                @db.DateTime(0)
-  invoiceStatus  registers_invoiceStatus? @default(pending)
-  students       students?                @relation(fields: [studentId], references: [id], onDelete: Cascade, map: "registers_ibfk_1")
-  ClassMaster   ClassMaster?            @relation(fields: [classId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "registers_ibfk_2")
-  universities   universities?            @relation(fields: [university], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "registers_ibfk_3")
-  sessions       sessions?                @relation(fields: [sessionId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "registers_ibfk_4")
-  packages       packages?                @relation(fields: [packageId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "registers_ibfk_5")
-  guidanceTypes  guidanceTypes?           @relation(fields: [guidanceTypeId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "registers_ibfk_6")
-  locations      locations?               @relation(fields: [locationId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "registers_ibfk_7")
-  schoolYears    schoolYears?             @relation(fields: [schoolYearId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "registers_ibfk_8")
-  users          users?                   @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "registers_ibfk_9")
-
-  @@index([classId], map: "classId")
-  @@index([guidanceTypeId], map: "guidanceTypeId")
-  @@index([locationId], map: "locationId")
-  @@index([packageId], map: "packageId")
-  @@index([schoolYearId], map: "schoolYearId")
-  @@index([sessionId], map: "sessionId")
-  @@index([studentId], map: "studentId")
-  @@index([university], map: "university")
-  @@index([userCreate], map: "userCreate")
-}
-
-model roleHasPermissions {
-  id           String       @id @db.VarChar(36) @default(uuid())
-  roleId       String?      @db.VarChar(36)
-  permissionId String?      @db.VarChar(36)
-  userCreate   String?      @db.VarChar(36)
-  createdAt    DateTime?    @default(now()) @db.DateTime(0)
-  updatedAt    DateTime?    @default(now()) @db.DateTime(0)
-  deletedAt    DateTime?    @db.DateTime(0)
-  users        users?       @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "rolehaspermissions_ibfk_1")
-  roles        roles?       @relation(fields: [roleId], references: [id], onDelete: Cascade, map: "rolehaspermissions_ibfk_2")
-  permissions  permissions? @relation(fields: [permissionId], references: [id], onDelete: Cascade, map: "rolehaspermissions_ibfk_3")
-
-  @@index([permissionId], map: "permissionId")
-  @@index([roleId], map: "roleId")
-  @@index([userCreate], map: "userCreate")
-}
-
-model roles {
-  id                            String               @id @db.VarChar(36) @default(uuid())
-  name                          String?              @db.VarChar(100)
-  description                   String?              @db.VarChar(255)
-  userCreate                    String?              @db.VarChar(36)
-  createdAt                     DateTime?            @default(now()) @db.DateTime(0)
-  updatedAt                     DateTime?            @default(now()) @db.DateTime(0)
-  deletedAt                     DateTime?            @db.DateTime(0)
-  roleHasPermissions            roleHasPermissions[]
-  users_roles_userCreateTousers users?               @relation("roles_userCreateTousers", fields: [userCreate], references: [id], onUpdate: SetNull, map: "roles_ibfk_1")
-  userHasRoles                  userHasRoles[]
-  users_users_roleIdToroles     users[]              @relation("users_roleIdToroles")
-
-  @@index([userCreate], map: "userCreate")
-}
-
-model rooms {
-  id          String      @id @db.VarChar(36) @default(uuid())
-  code        String?     @db.VarChar(15)
-  name        String?     @db.VarChar(25)
-  description String?     @db.VarChar(50)
-  useraCreate String?     @db.VarChar(36)
-  createdAt   DateTime?   @default(now()) @db.DateTime(0)
-  updatedAt   DateTime?   @default(now()) @db.DateTime(0)
-  deletedAt   DateTime?   @db.DateTime(0)
-  users       users?      @relation(fields: [useraCreate], references: [id], onUpdate: SetNull, map: "rooms_ibfk_1")
-  schedules   schedules[]
-
-  @@index([useraCreate], map: "useraCreate")
-}
-
-model schedules {
-  id                                String            @id @db.VarChar(36) @default(uuid())
-  studyGroupId                      String            @db.VarChar(36)
-  date                              DateTime          @db.DateTime(0)
-  tentorId                          String            @db.VarChar(36)
-  roomId                            String?           @db.VarChar(36)
-  type                              schedules_type?   @default(study)
-  materiId                          String?           @db.VarChar(36)
-  method                            schedules_method? @default(online)
-  userCreate                        String?           @db.VarChar(36)
-  createdAt                         DateTime?         @default(now()) @db.DateTime(0)
-  updatedAt                         DateTime?         @default(now()) @db.DateTime(0)
-  deletedAt                         DateTime?         @db.DateTime(0)
-  payrollDetails                    payrollDetails[]
-  studyGroups                       studyGroups       @relation(fields: [studyGroupId], references: [id], onUpdate: Restrict, map: "schedules_ibfk_1")
-  users_schedules_tentorIdTousers   users             @relation("schedules_tentorIdTousers", fields: [tentorId], references: [id], onDelete: Cascade, map: "schedules_ibfk_2")
-  rooms                             rooms?            @relation(fields: [roomId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "schedules_ibfk_4")
-  users_schedules_userCreateTousers users?            @relation("schedules_userCreateTousers", fields: [userCreate], references: [id], onUpdate: SetNull, map: "schedules_ibfk_5")
-
-  @@index([roomId], map: "roomId")
-  @@index([studyGroupId], map: "studyGroupId")
-  @@index([tentorId], map: "tentorId")
-  @@index([userCreate], map: "userCreate")
-}
-
-model schoolYears {
-  id          String      @id @db.VarChar(36) @default(uuid())
-  name        String?     @db.VarChar(20)
-  description String?     @db.VarChar(100)
-  userCreate  String?     @db.VarChar(36)
-  createdAt   DateTime?   @default(now()) @db.DateTime(0)
-  updatedAt   DateTime?   @default(now()) @db.DateTime(0)
-  deletedAt   DateTime?   @db.DateTime(0)
-  registers   registers[]
-  users       users?      @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "schoolyears_ibfk_1")
-
-  @@index([userCreate], map: "userCreate")
-}
-
-model sessions {
-  id         String      @id @db.VarChar(36) @default(uuid())
-  code       String?     @db.VarChar(50)
-  name       String?     @db.VarChar(50)
-  quantity   Int?
-  userCreate String?     @db.VarChar(36)
-  createdAt  DateTime?   @default(now()) @db.DateTime(0)
-  updatedAt  DateTime?   @default(now()) @db.DateTime(0)
-  deletedAt  DateTime?   @db.DateTime(0)
-  registers  registers[]
-  users      users?      @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "sessions_ibfk_1")
-
-  @@index([userCreate], map: "userCreate")
-}
-
-model students {
-  id                String                @id @db.VarChar(36) @default(uuid())
-  name              String?               @db.VarChar(100)
-  studyProgram      String?               @db.VarChar(100)
-  phone             String?               @db.VarChar(15)
-  school            String?               @db.VarChar(100)
-  placeBird         String?               @db.VarChar(100)
-  dateBirth         DateTime?             @db.Date
-  address           String?               @db.Text
-  gender            students_gender?
-  classGrade        String?               @db.VarChar(50)
-  university        String?               @db.VarChar(100)
-  statusStudy       students_statusStudy?
-  parentName        String?               @db.VarChar(100)
-  parentPhone       String?               @db.VarChar(15)
-  image             String?               @db.Text
-  agreement         Int?                  @db.SmallInt
-  userCreate        String?               @db.VarChar(36)
-  createdAt         DateTime?             @default(now()) @db.DateTime(0)
-  updatedAt         DateTime?             @default(now()) @db.DateTime(0)
-  deletedAt         DateTime?             @db.DateTime(0)
-  recordMateri      recordMateri[]
-  registers         registers[]
-  users             users?                @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "students_ibfk_1")
-  studyGroupDetails studyGroupDetails[]
-
-  @@index([userCreate], map: "userCreate")
-}
-
-model studyGroupDetails {
-  id           String       @id @db.VarChar(36) @default(uuid())
-  studyGroupId String?      @db.VarChar(36)
-  studentId    String?      @db.VarChar(36)
-  userCreate   String?      @db.VarChar(36)
-  createdAt    DateTime?    @default(now()) @db.DateTime(0)
-  updatedAt    DateTime?    @default(now()) @db.DateTime(0)
-  deletedAt    DateTime?    @default(now()) @db.DateTime(0)
-  studyGroups  studyGroups? @relation(fields: [studyGroupId], references: [id], onDelete: Cascade, map: "studygroupdetails_ibfk_1")
-  students     students?    @relation(fields: [studentId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "studygroupdetails_ibfk_2")
-  users        users?       @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "studygroupdetails_ibfk_3")
-
-  @@index([studentId], map: "studentId")
-  @@index([studyGroupId], map: "studyGroupId")
-  @@index([userCreate], map: "userCreate")
-}
-
-model studyGroups {
-  id                String              @id @db.VarChar(36) @default(uuid())
-  name              String?             @db.VarChar(255)
-  classId           String?             @db.VarChar(36)
-  guidanceTypeId    String?             @db.VarChar(36)
-  total             Int?                @db.SmallInt
-  userCreate        String?             @db.VarChar(36)
-  createdAt         DateTime?           @default(now()) @db.DateTime(0)
-  updatedAt         DateTime?           @default(now()) @db.DateTime(0)
-  deletedAt         DateTime?           @db.DateTime(0)
-  schedules         schedules[]
-  studyGroupDetails studyGroupDetails[]
-  ClassMaster      ClassMaster?       @relation(fields: [classId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "studygroups_ibfk_1")
-  guidanceTypes     guidanceTypes?      @relation(fields: [guidanceTypeId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "studygroups_ibfk_2")
-  users             users?              @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "studygroups_ibfk_3")
-
-  @@index([classId], map: "classId")
-  @@index([guidanceTypeId], map: "guidanceTypeId")
-  @@index([userCreate], map: "userCreate")
-}
-
-model tentorNotAvailable {
-  id                                         String    @id @db.VarChar(36) @default(uuid())
-  tentorId                                   String?   @db.VarChar(36)
-  startDate                                  DateTime? @db.DateTime(0)
-  untilDate                                  DateTime? @db.DateTime(0)
-  description                                String?   @db.VarChar(255)
-  userCreate                                 String?   @db.VarChar(36)
-  createdAt                                  DateTime? @default(now()) @db.DateTime(0)
-  updatedAt                                  DateTime? @default(now()) @db.DateTime(0)
-  deletedAt                                  DateTime? @default(now()) @db.DateTime(0)
-  users_tentorNotAvailable_tentorIdTousers   users?    @relation("tentorNotAvailable_tentorIdTousers", fields: [tentorId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "tentornotavailable_ibfk_1")
-  users_tentorNotAvailable_userCreateTousers users?    @relation("tentorNotAvailable_userCreateTousers", fields: [userCreate], references: [id], onUpdate: SetNull, map: "tentornotavailable_ibfk_2")
-
-  @@index([tentorId], map: "tentorId")
-  @@index([userCreate], map: "userCreate")
-}
-
-model tentorSkills {
-  id                                   String    @id @db.VarChar(36) @default(uuid())
-  tentorId                             String?   @db.VarChar(36)
-  courseId                             String?   @db.VarChar(36)
-  description                          String?   @db.VarChar(255)
-  userCreate                           String?   @db.VarChar(36)
-  createdAt                            DateTime? @default(now()) @db.DateTime(0)
-  updatedAt                            DateTime? @default(now()) @db.DateTime(0)
-  deletedAt                            DateTime? @db.DateTime(0)
-  users_tentorSkills_tentorIdTousers   users?    @relation("tentorSkills_tentorIdTousers", fields: [tentorId], references: [id], onDelete: Cascade, map: "tentorskills_ibfk_1")
-  users_tentorSkills_userCreateTousers users?    @relation("tentorSkills_userCreateTousers", fields: [userCreate], references: [id], onUpdate: SetNull, map: "tentorskills_ibfk_2")
-
-  @@index([tentorId], map: "tentorId")
-  @@index([userCreate], map: "userCreate")
-}
-
-model universities {
-  id          String      @id @db.VarChar(36) @default(uuid())
-  name        String?     @db.VarChar(255)
-  code        String?     @db.VarChar(50)
-  description String?     @db.VarChar(255)
-  userCreate  String?     @db.VarChar(36)
-  createdAt   DateTime?   @default(now()) @db.DateTime(0)
-  updatedAt   DateTime?   @default(now()) @db.DateTime(0)
-  deletedAt   DateTime?   @db.DateTime(0)
-  majors      majors[]
-  registers   registers[]
-  users       users?      @relation(fields: [userCreate], references: [id], onUpdate: SetNull, map: "universities_ibfk_1")
-
-  @@index([userCreate], map: "userCreate")
-}
-
-model userHasRoles {
-  id                                   String    @id @db.VarChar(36) @default(uuid())
-  roleId                               String?   @db.VarChar(36)
-  userId                               String?   @db.VarChar(36)
-  userCreate                           String?   @db.VarChar(36)
-  createdAt                            DateTime? @default(now()) @db.DateTime(0)
-  updatedAt                            DateTime? @default(now()) @db.DateTime(0)
-  deletedAt                            DateTime? @db.DateTime(0)
-  roles                                roles?    @relation(fields: [roleId], references: [id], onDelete: Cascade, map: "userhasroles_ibfk_1")
-  users_userHasRoles_userIdTousers     users?    @relation("userHasRoles_userIdTousers", fields: [userId], references: [id], onDelete: Cascade, map: "userhasroles_ibfk_2")
-  users_userHasRoles_userCreateTousers users?    @relation("userHasRoles_userCreateTousers", fields: [userCreate], references: [id], onUpdate: SetNull, map: "userhasroles_ibfk_3")
-
-  @@index([roleId], map: "roleId")
-  @@index([userCreate], map: "userCreate")
-  @@index([userId], map: "userId")
+  @@index([variableId], map: "variableId")
 }
 
 model users {
-  id                                                      String               @id @db.VarChar(36) @default(uuid())
-  name                                                    String?              @db.VarChar(150)
-  email                                                   String?              @db.VarChar(255)
-  username                                                String?              @db.VarChar(255)
-  password                                                String?              @db.VarChar(255)
-  token                                                   String?              @db.Text
-  refreshToken                                            String?              @db.Text
-  roleId                                                  String?              @db.VarChar(36)
-  userType                                                users_userType?
-  nickname                                                String?              @db.VarChar(100)
-  address                                                 String?              @db.Text
-  phone                                                   String?              @db.VarChar(15)
-  userCreate                                              String?              @db.VarChar(36)
-  createdAt                                               DateTime?            @default(now()) @db.DateTime(0)
-  updatedAt                                               DateTime?            @default(now()) @db.DateTime(0)
-  deletedAt                                               DateTime?            @db.DateTime(0)
-  ClassMaster                                            ClassMaster[]
-  classTypes                                              classTypes[]
-  courses                                                 courses[]
-  guidanceTypes                                           guidanceTypes[]
-  locations                                               locations[]
-  majors                                                  majors[]
-  materials                                               materials[]
-  packages                                                packages[]
-  payrollDetails                                          payrollDetails[]
-  payrolls_payrolls_userIdTousers                         payrolls[]           @relation("payrolls_userIdTousers")
-  payrolls_payrolls_userCreateTousers                     payrolls[]           @relation("payrolls_userCreateTousers")
-  permissionNames                                         permissionNames[]
-  recordMateri                                            recordMateri[]
-  registers                                               registers[]
-  roleHasPermissions                                      roleHasPermissions[]
-  roles_roles_userCreateTousers                           roles[]              @relation("roles_userCreateTousers")
-  rooms                                                   rooms[]
-  schedules_schedules_tentorIdTousers                     schedules[]          @relation("schedules_tentorIdTousers")
-  schedules_schedules_userCreateTousers                   schedules[]          @relation("schedules_userCreateTousers")
-  schoolYears                                             schoolYears[]
-  sessions                                                sessions[]
-  students                                                students[]
-  studyGroupDetails                                       studyGroupDetails[]
-  studyGroups                                             studyGroups[]
-  tentorNotAvailable_tentorNotAvailable_tentorIdTousers   tentorNotAvailable[] @relation("tentorNotAvailable_tentorIdTousers")
-  tentorNotAvailable_tentorNotAvailable_userCreateTousers tentorNotAvailable[] @relation("tentorNotAvailable_userCreateTousers")
-  tentorSkills_tentorSkills_tentorIdTousers               tentorSkills[]       @relation("tentorSkills_tentorIdTousers")
-  tentorSkills_tentorSkills_userCreateTousers             tentorSkills[]       @relation("tentorSkills_userCreateTousers")
-  universities                                            universities[]
-  userHasRoles_userHasRoles_userIdTousers                 userHasRoles[]       @relation("userHasRoles_userIdTousers")
-  userHasRoles_userHasRoles_userCreateTousers             userHasRoles[]       @relation("userHasRoles_userCreateTousers")
-  roles_users_roleIdToroles                               roles?               @relation("users_roleIdToroles", fields: [roleId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "users_ibfk_1")
-  users                                                   users?               @relation("usersTousers", fields: [userCreate], references: [id], onUpdate: SetNull, map: "users_ibfk_2")
-  other_users                                             users[]              @relation("usersTousers")
-
-  @@index([roleId], map: "roleId")
-  @@index([userCreate], map: "userCreate")
+  id       Int         @id @default(autoincrement())
+  name     String?     @db.VarChar(100)
+  username String?     @db.VarChar(100)
+  password String?     @db.VarChar(255)
+  role     users_role? @default(admin)
 }
 
-enum guidanceTypes_type {
-  private
-  reguler
+model variables {
+  id           Int            @id @default(autoincrement())
+  code         String?        @db.VarChar(20)
+  name         String?        @db.VarChar(100)
+  description  String?        @db.VarChar(255)
+  subVariables subVariables[]
 }
 
-enum class_method {
-  online
-  offline
+model knowladgeManagementCompetence {
+  id                    Int                  @id @default(autoincrement()) @db.UnsignedInt
+  knowledgeManagementId Int?
+  subVariableId         Int?
+  type                  Int?
+  knowledgeManagement   knowledgeManagement? @relation(fields: [knowledgeManagementId], references: [id], onDelete: Cascade, map: "knowladgemanagementcompetence_ibfk_1")
+  subVariables          subVariables?        @relation(fields: [subVariableId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "knowladgemanagementcompetence_ibfk_2")
+
+  @@index([knowledgeManagementId], map: "knowledgeManagementId")
+  @@index([subVariableId], map: "subVariableId")
 }
 
-enum schedules_type {
-  study
-  try_out @map("try-out")
+model knowladgeManagementIKU {
+  id                    Int                  @id @default(autoincrement()) @db.UnsignedInt
+  knowledgeManagementId Int?
+  subVariableId         Int?
+  type                  Int?
+  knowledgeManagement   knowledgeManagement? @relation(fields: [knowledgeManagementId], references: [id], onDelete: Cascade, map: "knowladgemanagementiku_ibfk_1")
+  subVariables          subVariables?        @relation(fields: [subVariableId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "knowladgemanagementiku_ibfk_2")
+
+  @@index([knowledgeManagementId], map: "knowledgeManagementId")
+  @@index([subVariableId], map: "subVariableId")
 }
 
-enum schedules_method {
-  online
-  offline
+enum respondents_gender {
+  Laki_Laki @map("Laki-Laki")
+  Perempuan
 }
 
-enum students_gender {
-  laki_laki @map("laki-laki")
-  perempuan
-}
-
-enum users_userType {
+enum users_role {
+  expert
   admin
-  tentor
 }
 
-enum registers_status {
-  student
-  alumni
-}
-
-enum students_statusStudy {
-  study
-  alumni
-}
-
-enum registers_invoiceStatus {
-  pending
-  generated
+enum subVariables_km {
+  yes
+  no
 }

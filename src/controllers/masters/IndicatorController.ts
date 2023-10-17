@@ -1,11 +1,11 @@
+import { IndicatorsInterface, IndicatorsQueryInterface } from "#root/interfaces/IndicatorInterface";
 import Model from "#root/services/PrismaService";
 import { Request, Response } from "express";
 import { Prisma } from "@prisma/client";
 import { handleValidationError } from "#root/helpers/handleValidationError";
 import { errorType } from "#root/helpers/errorType";
-import { ClassMasterQueryInterface } from "#root/interfaces/ClassMasterInterface";
 
-const getData = async (req:Request<{}, {}, {}, ClassMasterQueryInterface>, res:Response) => {
+const getData = async (req:Request<{}, {}, {}, IndicatorsQueryInterface>, res:Response) => {
     try {
         const query = req.query;
         // PAGING
@@ -22,23 +22,26 @@ const getData = async (req:Request<{}, {}, {}, ClassMasterQueryInterface>, res:R
                 ]
             }
         }
-        const data = await Model.classMaster.findMany({
+        const data = await Model.indicators.findMany({
             where: {
                 ...filter
+            },
+            include: {
+                subVariables: true
             },
             skip: skip,
             take: take
         });
-        const total = await Model.classMaster.count({
+        const total = await Model.indicators.count({
             where: {
                 ...filter
             }
         })
         res.status(200).json({
             status: true,
-            message: "successfully in getting class data",
+            message: "successful in getting indicators data",
             data: {
-                users: data,
+                indicators: data,
                 info:{
                     page: page,
                     limit: take,
@@ -61,12 +64,14 @@ const getData = async (req:Request<{}, {}, {}, ClassMasterQueryInterface>, res:R
 const postData = async (req:Request, res:Response) => {
     try {
         const data = { ...req.body};
-        await Model.classMaster.create({data: data});
+        await Model.indicators.create({data: data});
         res.status(200).json({
             status: true,
-            message: 'successfully in created class data'
+            message: 'successful in created indicators data'
         })
     } catch (error) {
+        console.log({error});
+        
         let message = errorType
         message.message.msg = `${error}`
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -84,15 +89,15 @@ const postData = async (req:Request, res:Response) => {
 const updateData = async (req:Request, res:Response) => {
     try {
         const data = { ...req.body};
-        await Model.classMaster.update({
+        await Model.indicators.update({
             where: {
-                id: req.params.id
+                id: parseInt(req.params.id+'')
             },
             data: data
         });
         res.status(200).json({
             status: true,
-            message: 'successful in updated class data'
+            message: 'successful in updated indicators data'
         })
     } catch (error) {
         let message = errorType
@@ -109,16 +114,16 @@ const updateData = async (req:Request, res:Response) => {
     }
 }
 
-const deleteData = async (req:Request, res:Response)=> {
+const deleteData = async (req:Request<IndicatorsInterface>, res:Response)=> {
     try {
-        await Model.classMaster.delete({
+        await Model.indicators.delete({
             where: {
-                id: req.params.id
+                id: parseInt(req.params.id+'')
             }
         })
         res.status(200).json({
             status: false,
-            message: 'successfully in deleted class data'
+            message: 'successfully in deleted indicators data'
         })
     } catch (error) {
         let message = {
@@ -137,22 +142,24 @@ const deleteData = async (req:Request, res:Response)=> {
     }
 }
 
-const getDataById = async (req:Request, res:Response) => {
+const getDataById = async (req:Request<IndicatorsInterface>, res:Response) => {
     try {
-        const model = await Model.classMaster.findUnique({
+        const model = await Model.indicators.findUnique({
             where: {
-                id: req.params.id
+                id: parseInt(req.params.id+'')
             }
         })
         if(!model) throw new Error('data not found')
         res.status(200).json({
             status: true,
-            message: 'successfully in get class data',
+            message: 'successfully in get indicator data',
             data: {
-                users: model
+                indicator: model
             }
         })
     } catch (error) {
+        console.log({error});
+        
         let message = {
             status:500,
             message: { msg: `${error}` }
@@ -169,10 +176,50 @@ const getDataById = async (req:Request, res:Response) => {
     }
 }
 
+const getDataSelect = async (req:Request<{}, {}, {}, IndicatorsQueryInterface>, res:Response) => {
+    try {
+        const query = req.query
+        let filter:any= []
+        query.name ? filter = [...filter, {name: { contains: query.name }}] : null
+        const data = await Model.indicators.findMany({
+            where: {
+                name: {
+                    contains: query.name ?? ''
+                }
+            },
+            take: 20
+        })
+        let response:any=[]
+        for (const value of data) {
+            response = [...response, {
+                value: value.id,
+                label: value.name
+            }]
+        }
+        res.status(200).json({
+            status: true,
+            message: "successful in getting sub variable data",
+            data: {
+                indicators: response
+            }
+        })
+    } catch (error) {
+        let message = errorType
+        message.message.msg = `${error}`
+        res.status(message.status).json({
+            status: false,
+            errors: [
+                message.message
+            ]
+        })
+    }
+}
+
 export {
     getData,
     postData,
     updateData,
     deleteData,
-    getDataById
+    getDataById,
+    getDataSelect
 }

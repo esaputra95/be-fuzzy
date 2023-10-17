@@ -1,4 +1,5 @@
 export { default as user } from '#routers/masters/UserRoute'
-export { default as classMaster } from '#root/routers/masters/ClassMasterRoute'
-export { default as classType } from '#root/routers/masters/ClassTypeRoute'
-export { default as guidanceType } from '#root/routers/masters/GuidanceTypeRoute'
+export { default as variable } from '#routers/masters/VariableRoute'
+export { default as subVariable } from '#routers/masters/SubVariableRoute'
+export { default as indicator } from '#routers/masters/IndicatorRoute'
+export { default as factor } from '#routers/masters/FactorRoute'

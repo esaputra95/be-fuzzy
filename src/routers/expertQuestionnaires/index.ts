@@ -1,0 +1,1 @@
+export { default as expertQuestionnaire } from '#routers/expertQuestionnaires/ExpertQuestionnaireRoute'

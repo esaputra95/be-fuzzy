@@ -1,14 +1,9 @@
 export interface UserInterface {
-    id: string;
+    id: number;
     name: string;
     username: string,
     password: string,
-    email?: string | null,
-    phone?: string | null,
-    userCreate?: string | null,
-    createdAt?: Date | null,
-    updatedAt?: Date | null,
-    deletedAt?: Date | null
+    role?: string | null
 }
 
 export interface UserQueryInterface extends UserInterface {
