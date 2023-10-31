@@ -1,7 +1,5 @@
 import express from "express";
 import { deleteData, getData, getDataById, postData, updateData, getDataForm } from "#controllers/expertQuestionnaire/ExpertQuestionnaireController"
-import validationMessage from "#root/validations/Validate";
-import FactorsValidation from "#root/validations/masters/FactorValidation";
 const route = express.Router()
 
 route.get('/', getData);

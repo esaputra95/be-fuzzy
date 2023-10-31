@@ -50,8 +50,6 @@ const getData = async (req:Request<{}, {}, {}, SubVariablesQueryInterface>, res:
             }
         })
     } catch (error) {
-        console.log({error});
-        
         let message = errorType
         message.message.msg = `${error}`
         res.status(message.status).json({
@@ -72,8 +70,6 @@ const postData = async (req:Request, res:Response) => {
             message: 'successful in created sub variable data'
         })
     } catch (error) {
-        console.log({error});
-        
         let message = errorType
         message.message.msg = `${error}`
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -102,8 +98,6 @@ const updateData = async (req:Request, res:Response) => {
             message: 'successful in updated sub variable data'
         })
     } catch (error) {
-        console.log({error});
-        
         let message = errorType
         message.message.msg = `${error}`
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -162,8 +156,6 @@ const getDataById = async (req:Request<SubVariablesInterface>, res:Response) => 
             }
         })
     } catch (error) {
-        console.log({error});
-        
         let message = {
             status:500,
             message: { msg: `${error}` }

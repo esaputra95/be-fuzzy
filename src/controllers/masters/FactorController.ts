@@ -153,8 +153,6 @@ const getDataById = async (req:Request<FactorsInterface>, res:Response) => {
             }
         })
     } catch (error) {
-        console.log({error});
-        
         let message = {
             status:500,
             message: { msg: `${error}` }

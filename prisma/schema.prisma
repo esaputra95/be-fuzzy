@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["filteredRelationCount"]
 }
 
 datasource db {
@@ -13,6 +14,7 @@ model factors {
   name                String?               @db.VarChar(100)
   description         String?               @db.VarChar(255)
   knowledgeManagement knowledgeManagement[]
+  questionnaires      questionnaires[]
 }
 
 model indicators {
@@ -39,6 +41,7 @@ model knowledgeManagement {
   factorId                      Int?
   indicatorId                   Int?
   reference                     String?                         @db.VarChar(255)
+  number                        Int?
   knowladgeManagementCompetence knowladgeManagementCompetence[]
   knowladgeManagementIKU        knowladgeManagementIKU[]
   factors                       factors?                        @relation(fields: [factorId], references: [id], onDelete: Cascade, map: "knowledgemanagement_ibfk_1")
@@ -66,29 +69,38 @@ model questionnaireFinals {
 }
 
 model questionnaires {
-  id                                                 Int          @id @default(autoincrement())
+  id                                                 Int           @id @default(autoincrement())
   respondentId                                       Int?
   indicatorId1                                       Int?
   indicatorId2                                       Int?
-  value                                              Decimal?     @db.Decimal(6, 2)
-  respondents                                        respondents? @relation(fields: [respondentId], references: [id], onDelete: Cascade, map: "questionnaires_ibfk_1")
-  indicators_questionnaires_indicatorId1Toindicators indicators?  @relation("questionnaires_indicatorId1Toindicators", fields: [indicatorId1], references: [id], onDelete: Cascade, map: "questionnaires_ibfk_2")
-  indicators_questionnaires_indicatorId2Toindicators indicators?  @relation("questionnaires_indicatorId2Toindicators", fields: [indicatorId2], references: [id], onDelete: Cascade, map: "questionnaires_ibfk_3")
+  value                                              Decimal?      @db.Decimal(6, 2)
+  indexIndicator1                                    Int?
+  indexIndicator2                                    Int?
+  subVariableId                                      Int?
+  factorId                                           Int?
+  respondents                                        respondents?  @relation(fields: [respondentId], references: [id], onDelete: Cascade, map: "questionnaires_ibfk_1")
+  indicators_questionnaires_indicatorId1Toindicators indicators?   @relation("questionnaires_indicatorId1Toindicators", fields: [indicatorId1], references: [id], onDelete: Cascade, map: "questionnaires_ibfk_2")
+  indicators_questionnaires_indicatorId2Toindicators indicators?   @relation("questionnaires_indicatorId2Toindicators", fields: [indicatorId2], references: [id], onDelete: Cascade, map: "questionnaires_ibfk_3")
+  subVariables                                       subVariables? @relation(fields: [subVariableId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "questionnaires_ibfk_4")
+  factors                                            factors?      @relation(fields: [factorId], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "questionnaires_ibfk_5")
 
   @@index([indicatorId1], map: "indicatorId1")
   @@index([indicatorId2], map: "indicatorId2")
   @@index([respondentId], map: "respondentId")
+  @@index([factorId], map: "factorId")
+  @@index([subVariableId], map: "subVariableId")
 }
 
 model respondents {
   id                  Int                   @id @default(autoincrement())
   name                String?               @db.VarChar(150)
   nik                 String?               @db.VarChar(50)
-  gender              respondents_gender?
+  gender              String?               @db.VarChar(20)
   position            String?               @db.VarChar(50)
-  speciality          String?               @db.VarChar(150)
-  faculty             Int?
+  specialty           String?               @db.VarChar(150)
+  faculty             String?               @db.VarChar(150)
   university          String?               @db.VarChar(150)
+  type                respondents_type?     @default(umum)
   questionnaireFinals questionnaireFinals[]
   questionnaires      questionnaires[]
 }
@@ -104,6 +116,7 @@ model subVariables {
   knowladgeManagementCompetence knowladgeManagementCompetence[]
   knowladgeManagementIKU        knowladgeManagementIKU[]
   knowledgeManagement           knowledgeManagement[]
+  questionnaires                questionnaires[]
   variables                     variables?                      @relation(fields: [variableId], references: [id], onDelete: Cascade, map: "subvariables_ibfk_1")
 
   @@index([variableId], map: "variableId")
@@ -149,11 +162,6 @@ model knowladgeManagementIKU {
   @@index([subVariableId], map: "subVariableId")
 }
 
-enum respondents_gender {
-  Laki_Laki @map("Laki-Laki")
-  Perempuan
-}
-
 enum users_role {
   expert
   admin
@@ -162,4 +170,9 @@ enum users_role {
 enum subVariables_km {
   yes
   no
+}
+
+enum respondents_type {
+  ahli
+  umum
 }

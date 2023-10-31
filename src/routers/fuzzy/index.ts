@@ -1,0 +1,1 @@
+export { default as Fuzzy } from '#routers/fuzzy/fuzzy'

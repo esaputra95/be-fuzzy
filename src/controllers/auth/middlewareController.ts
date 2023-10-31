@@ -21,7 +21,6 @@ const AccessToken = (req:Request, res:Response, next:NextFunction) => {
         
         jwt.verify(token, '1234567890', (err, decode:any)=>{
             if(err) return res.send(403);
-            console.log({decode});
             res.locals.userId = decode?.id ?? ''
             return next()
         })

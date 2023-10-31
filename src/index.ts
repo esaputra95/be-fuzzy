@@ -9,6 +9,7 @@ import { factor, indicator, subVariable, user, variable } from "./routers/master
 import { knowledgeManagement } from "./routers/knowledgeManagements";
 import { AccessToken } from "./controllers/auth/middlewareController";
 import { expertQuestionnaire } from "./routers/expertQuestionnaires";
+import { Fuzzy } from "./routers/fuzzy";
 
 const app = express()
 app.use(cors()); // Parse JSON requests
@@ -23,5 +24,6 @@ app.use('/indicators', indicator)
 app.use('/factors', factor)
 app.use('/knowledge-managements', knowledgeManagement)
 app.use('/expert-questionnaires', expertQuestionnaire)
+app.use('/fuzzy', Fuzzy)
 
 app.listen(3000, ()=> console.log('server run ip 127.0.0.1:3000'))

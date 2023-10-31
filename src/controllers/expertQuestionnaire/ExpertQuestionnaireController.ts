@@ -22,14 +22,14 @@ const getData = async (req:Request<{}, {}, {}, FactorsQueryInterface>, res:Respo
                 ]
             }
         }
-        const data = await Model.factors.findMany({
+        const data = await Model.respondents.findMany({
             where: {
                 ...filter
             },
             skip: skip,
             take: take
         });
-        const total = await Model.factors.count({
+        const total = await Model.respondents.count({
             where: {
                 ...filter
             }
@@ -61,7 +61,50 @@ const getData = async (req:Request<{}, {}, {}, FactorsQueryInterface>, res:Respo
 const postData = async (req:Request, res:Response) => {
     try {
         const data = { ...req.body};
-        await Model.factors.create({data: data});
+        const dataRespondent = {...req.body}
+        delete dataRespondent.questionary;
+        dataRespondent.type = 'ahli'
+        const saveRespondent = await Model.respondents.create({
+            data: dataRespondent
+        });
+        Model.$transaction(async (Model)=> {
+            for (const value of data.questionary) {
+                if(value){
+                    const newData = {
+                        respondentId: saveRespondent.id,
+                        indicatorId1: parseInt(value.indicatorId1),
+                        indicatorId2: parseInt(value.indicatorId2),
+                        indexIndicator1: parseInt(value.indexIndicator1),
+                        indexIndicator2: parseInt(value.indexIndicator2),
+                        subVariableId: parseInt(value.subVariableId),
+                        factorId: parseInt(value.factorId),
+                        value: parseFloat(value.value)
+                    }
+                    await Model.questionnaires.create({
+                        data: newData
+                    });
+                }
+                
+            }
+        })
+        // const saveRespondent = await Model.respondents.create({
+        //     data: dataRespondent
+        // });
+        // for (const value of data.questionary) {
+        //     if(value){
+        //         const newData = {
+        //             respondentId: saveRespondent.id,
+        //             indicatorId1: value.indicatorId1,
+        //             indicatorId2: value.indicatorId2,
+        //             value: parseFloat(value.value)
+        //         }
+        //         await Model.questionnaires.create({
+        //             data: newData
+        //         });
+        //     }
+            
+        // }
+        
         res.status(200).json({
             status: true,
             message: 'successful in created factor data'
@@ -111,7 +154,7 @@ const updateData = async (req:Request, res:Response) => {
 
 const deleteData = async (req:Request<FactorsInterface>, res:Response)=> {
     try {
-        await Model.factors.delete({
+        await Model.respondents.delete({
             where: {
                 id: parseInt(req.params.id+'')
             }
@@ -153,8 +196,6 @@ const getDataById = async (req:Request<FactorsInterface>, res:Response) => {
             }
         })
     } catch (error) {
-        console.log({error});
-        
         let message = {
             status:500,
             message: { msg: `${error}` }
@@ -217,7 +258,6 @@ const getDataForm = async ({}, res:Response) => {
                 km: 'yes'
             }
         })
-        console.log(subVariables);
         
         const dataFactors = await Model.factors.findMany()
         let response:any =[]

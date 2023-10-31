@@ -72,7 +72,8 @@ const postData = async (req:Request, res:Response) => {
                 data: {
                     ...value,
                     subVariableId: req.body.subVariableId,
-                    factorId: req.body.factorId
+                    factorId: req.body.factorId,
+                    number: parseInt(value.number)
                 }
             })
         }
@@ -168,8 +169,6 @@ const getDataById = async (req:Request<KnowledgeManagementsInterface>, res:Respo
             }
         })
     } catch (error) {
-        console.log({error});
-        
         let message = {
             status:500,
             message: { msg: `${error}` }

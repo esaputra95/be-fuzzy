@@ -70,8 +70,6 @@ const postData = async (req:Request, res:Response) => {
             message: 'successful in created indicators data'
         })
     } catch (error) {
-        console.log({error});
-        
         let message = errorType
         message.message.msg = `${error}`
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -158,8 +156,6 @@ const getDataById = async (req:Request<IndicatorsInterface>, res:Response) => {
             }
         })
     } catch (error) {
-        console.log({error});
-        
         let message = {
             status:500,
             message: { msg: `${error}` }

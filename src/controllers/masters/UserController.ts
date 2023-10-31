@@ -163,8 +163,6 @@ const getDataById = async (req:Request<UserInterface>, res:Response) => {
             }
         })
     } catch (error) {
-        console.log({error});
-        
         let message = {
             status:500,
             message: { msg: `${error}` }
