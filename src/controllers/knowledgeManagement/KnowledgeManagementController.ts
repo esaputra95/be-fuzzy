@@ -68,14 +68,17 @@ const postData = async (req:Request, res:Response) => {
         const data = [...req.body.indicators];
         // await Model.knowledgeManagement.create({data: data});
         for (const value of data) {
-            await Model.knowledgeManagement.create({
-                data: {
-                    ...value,
-                    subVariableId: req.body.subVariableId,
-                    factorId: req.body.factorId,
-                    number: parseInt(value.number)
-                }
-            })
+            if(value.indicatorId){
+                await Model.knowledgeManagement.create({
+                    data: {
+                        ...value,
+                        subVariableId: req.body.subVariableId,
+                        factorId: req.body.factorId,
+                        number: parseInt(value.number)
+                    }
+                })
+            }
+            
         }
         
         res.status(200).json({

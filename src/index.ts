@@ -25,5 +25,6 @@ app.use('/factors', factor)
 app.use('/knowledge-managements', knowledgeManagement)
 app.use('/expert-questionnaires', expertQuestionnaire)
 app.use('/fuzzy', Fuzzy)
+app.use('/download',express.static('public'))
 
 app.listen(3000, ()=> console.log('server run ip 127.0.0.1:3000'))
