@@ -441,9 +441,7 @@ const countData = async (count:number, query: {subVariableId: string, factorId: 
             
             let reduce=1;
             for (let index = 0; index < question.length; index++) {
-                if(index===0){
-                    checkNilai=question[index].value ?? 0
-                }
+                checkNilai+=question[index].value ?? 0
                 let value = parseInt(question[index].value+'') > 0 ? 
                     parseInt(question[index].value+'') : 
                     parseInt(question[index].value+'')* -1    
