@@ -434,14 +434,14 @@ const countData = async (count:number, query: {subVariableId: string, factorId: 
         });
         let newData:any=[]
         // MENYUSUN NILAI INVERS MATRIX
-        let checkNilai:any=0
+        let checkNilai:number=0
         for (let indexResp = 0; indexResp < respondent.length; indexResp++) {
             let arrayData:any=[]
             const question = respondent[indexResp].questionnaires
             
             let reduce=1;
             for (let index = 0; index < question.length; index++) {
-                checkNilai+=question[index].value ?? 0
+                checkNilai+=parseFloat(question[index].value+'' ?? 0)
                 let value = parseInt(question[index].value+'') > 0 ? 
                     parseInt(question[index].value+'') : 
                     parseInt(question[index].value+'')* -1    
@@ -478,6 +478,7 @@ const countData = async (count:number, query: {subVariableId: string, factorId: 
             endData[newData.length]=1;
             newData = [ ...newData, endData ]
             let dataMatrix:any=[]
+            
             if(checkNilai>0){
                 for (let indexInvers = 0; indexInvers < newData.length; indexInvers++) {
                     let dataRow:any=[]
@@ -489,6 +490,8 @@ const countData = async (count:number, query: {subVariableId: string, factorId: 
             }else{
                 dataMatrix=[...newData]
             }
+
+            checkNilai=0
 
             dataVSub=[
                 ...dataVSub,
