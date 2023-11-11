@@ -753,7 +753,7 @@ const countData = async (count:number, query: {subVariableId: string, factorId: 
             multiplicationMatrixStageFuzzy,
             squaredRootOfStageFuzzy,
             sintesisFuzzy,
-            dataExcelI,
+            resultSI: dataExcelI,
             valueVactor,
             valueMin,
             normalization
