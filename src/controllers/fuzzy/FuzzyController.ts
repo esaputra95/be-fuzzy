@@ -438,7 +438,6 @@ const countData = async (count:number, query: {subVariableId: string, factorId: 
         for (let indexResp = 0; indexResp < respondent.length; indexResp++) {
             let arrayData:any=[]
             const question = respondent[indexResp].questionnaires
-            
             let reduce=1;
             for (let index = 0; index < question.length; index++) {
                 checkNilai+=parseFloat(question[index].value+'' ?? 0)
