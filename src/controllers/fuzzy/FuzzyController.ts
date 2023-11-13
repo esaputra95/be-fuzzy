@@ -285,6 +285,74 @@ const processKmeans = async (req:Request<{}, {}, {}, {subVariableId:string, fact
     }
 }
 
+const Performance = async (req:Request, res:Response) => {
+    try {
+        let dataPerformance:any=[]
+        let dataExcel:any=[]
+        const bobot = JSON.parse(fs.readFileSync('data/bobot.json', 'utf8'));
+        fs.createReadStream('data.csv')
+        .pipe(csv())
+        .on('data', (data) => dataExcel.push(data))
+        .on('end', async () => {
+            const subVariable = await Model.subVariables.findMany({
+                where: {
+                    km: 'yes'
+                },
+                select: {
+                    id: true,
+                    code: true
+                }
+            });
+            const factor = await Model.factors.findMany({
+                select: {
+                    id: true,
+                    code: true
+                }
+            });
+
+            for (let indexExcel = 0; indexExcel < dataExcel.length; indexExcel++) {
+                let valueRow:any=[]
+                for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
+                    for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
+                        const knowledgeManagement = await Model.knowledgeManagement.count({
+                            where: {
+                                subVariableId: subVariable[indexSub].id,
+                                factorId: factor[indexFactor].id
+                            }
+                        })
+                        for (let index = 0; index < knowledgeManagement; index++) {
+                            const value = dataExcel[indexExcel]
+                                [`${factor[indexFactor].code}_${subVariable[indexSub].code}${(index+1)}`]
+                                * bobot[`${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`];
+                            valueRow=[...valueRow, {
+                                label: factor[indexFactor].code+'_'+subVariable[indexSub].code+(index+1),
+                                value: value
+                            }]
+                        }
+                    }
+                }
+                dataPerformance=[...dataPerformance,
+                    valueRow
+                ]
+            }
+
+            res.status(200).json({
+                status: true,
+                data: dataPerformance
+            })
+        })
+    } catch (error) {
+        let message = errorType
+        message.message.msg = `${error}`
+        res.status(message.status).json({
+            status: false,
+            errors: [
+                message.message
+            ]
+        })
+    }
+}
+
 const InversMatriks = async (req:Request<{}, {}, {}, {subVariableId:string, factorId: string}>, res:Response) => {
     try {
         const query:{subVariableId:string, factorId: string} = req.query;
@@ -779,4 +847,4 @@ const download = async (req: Request, res:Response) => {
     res.download('DataIterasi.xlsx')
 }
 
-export { InversMatriks, Perangkingan, processKmeans, download }
+export { InversMatriks, Perangkingan, processKmeans, download, Performance }

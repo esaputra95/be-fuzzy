@@ -1,7 +1,12 @@
 import express from "express";
-import { deleteData, getData, getDataById, postData, updateData } from "#controllers/knowledgeManagement/KnowledgeManagementController"
-import validationMessage from "#root/validations/Validate";
-import FactorsValidation from "#root/validations/masters/FactorValidation";
+import { 
+    deleteData,
+    getData,
+    getDataById,
+    postData,
+    updateData
+} from "#controllers/knowledgeManagement/KnowledgeManagementController";
+
 const route = express.Router()
 
 route.get('/', getData);

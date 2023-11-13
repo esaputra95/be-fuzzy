@@ -10,6 +10,7 @@ import { knowledgeManagement } from "./routers/knowledgeManagements";
 import { AccessToken } from "./controllers/auth/middlewareController";
 import { expertQuestionnaire } from "./routers/expertQuestionnaires";
 import { Fuzzy } from "./routers/fuzzy";
+import { Questionnaire } from "./routers/questionnaire";
 
 const app = express()
 app.use(cors()); // Parse JSON requests
@@ -25,6 +26,7 @@ app.use('/factors', factor)
 app.use('/knowledge-managements', knowledgeManagement)
 app.use('/expert-questionnaires', expertQuestionnaire)
 app.use('/fuzzy', Fuzzy)
+app.use('/questionnaire', Questionnaire)
 app.use('/download',express.static('public'))
 
 app.listen(3000, ()=> console.log('server run ip 127.0.0.1:3000'))
