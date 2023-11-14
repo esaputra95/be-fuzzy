@@ -21,7 +21,7 @@ export const Login = async (req:Request, res:Response) => {
             name: user.name
         }, '1234567890');
         res.json({
-            success: true,
+            status: true,
             message: "OK",
             data: {
                 token: accessToken,
@@ -29,8 +29,8 @@ export const Login = async (req:Request, res:Response) => {
                 }
         })
     } catch (error) {
-        res.status(404).json({
-            success: false,
+        res.status(500).send({
+            status: false,
             message: "Unauthorized",
             error: {
                 displayMessage: "Your username or password is incorect"

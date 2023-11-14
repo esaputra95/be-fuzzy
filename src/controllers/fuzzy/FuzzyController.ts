@@ -2,7 +2,6 @@ import { dataDecision, dataIR, dataInvers } from "#root/helpers/dataDefault";
 import { errorType } from "#root/helpers/errorType";
 import Model from "#root/services/PrismaService";
 import { Request, Response } from "express";
-import csv from 'csv-parser';
 import fs from 'fs';
 import xlsx, { IJsonSheet } from "json-as-xlsx"
 import { Prisma } from "@prisma/client";
@@ -12,264 +11,260 @@ const processKmeans = async (req:Request<{}, {}, {}, {subVariableId:string, fact
     try {
         // DATA CENTROID INDEX 0, 58, 167
         let indexCentroid = [0, 58, 167]
-        let dataExcel:any=[]
+        let dataExcel:any= JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
         const bobot = JSON.parse(fs.readFileSync('data/bobot.json', 'utf8'));
         let data: IJsonSheet[] = []
         let dataCluster:any=[]
-        fs.createReadStream('data.csv')
-        .pipe(csv())
-        .on('data', (data) => dataExcel.push(data))
-        .on('end', async () => {
-            const subVariable = await Model.subVariables.findMany({
-                where: {
-                    km: 'yes'
-                },
-                select: {
-                    id: true,
-                    code: true
-                }
-            });
-            const factor = await Model.factors.findMany({
-                select: {
-                    id: true,
-                    code: true
-                }
-            });
-            let tmpDataPerfomance:any=[]
-            let tmpHeader:any=[]
-            let oldCluster:any={}
-            let indexIterasi=0
-            let statusLoop=true;
 
-            let totalCluster
-            let originalDataPerformance:any=[];
-            let originalHeaderPerformance:any=[]
-            while (statusLoop) {
-                let header:any=[];
-                let dataPerformance:any=[]
-                
-                if(indexIterasi===0){
-                    for (let indexExcel = 0; indexExcel < dataExcel.length; indexExcel++) {
-                        let valueRow:any={}
-                        for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
-                            for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
-                                const knowledgeManagement = await Model.knowledgeManagement.count({
-                                    where: {
-                                        subVariableId: subVariable[indexSub].id,
-                                        factorId: factor[indexFactor].id
-                                    }
-                                })
-                                for (let index = 0; index < knowledgeManagement; index++) {
-                                    const value = dataExcel[indexExcel]
-                                        [`${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`]
-                                        * bobot[`${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`];
-                                    if(indexExcel==0){
-                                        header=[...header,
-                                            {
-                                                label: `${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`,
-                                                value: `${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`
-                                            }
-                                        ];
-                                    }
-                                    
-                                    valueRow={...valueRow, 
-                                            [`${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`]
-                                            :parseFloat(value.toFixed(4))
+        const subVariable = await Model.subVariables.findMany({
+            where: {
+                km: 'yes'
+            },
+            select: {
+                id: true,
+                code: true
+            }
+        });
+        const factor = await Model.factors.findMany({
+            select: {
+                id: true,
+                code: true
+            }
+        });
+        let tmpDataPerformance:any=[]
+        let tmpHeader:any=[]
+        let oldCluster:any={}
+        let indexIteration=0
+        let statusLoop=true;
+
+        let totalCluster
+        let originalDataPerformance:any=[];
+        let originalHeaderPerformance:any=[]
+        while (statusLoop) {
+            let header:any=[];
+            let dataPerformance:any=[]
+            
+            if(indexIteration===0){
+                for (let indexExcel = 0; indexExcel < dataExcel.length; indexExcel++) {
+                    let valueRow:any={}
+                    for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
+                        for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
+                            const knowledgeManagement = await Model.knowledgeManagement.count({
+                                where: {
+                                    subVariableId: subVariable[indexSub].id,
+                                    factorId: factor[indexFactor].id
+                                }
+                            })
+                            for (let index = 0; index < knowledgeManagement; index++) {
+                                const value = dataExcel[indexExcel]
+                                    [`${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`]
+                                    * bobot[`${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`];
+                                if(indexExcel==0){
+                                    header=[...header,
+                                        {
+                                            label: `${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`,
+                                            value: `${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`
                                         }
-                                    
+                                    ];
                                 }
+                                
+                                valueRow={...valueRow, 
+                                        [`${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`]
+                                        :parseFloat(value.toFixed(4))
+                                    }
+                                
                             }
                         }
-                        dataPerformance=[...dataPerformance,
-                            valueRow
-                        ]
                     }
-                } else if (indexIterasi===1){
-                    for (let indexRow = 0; indexRow < tmpDataPerfomance.length; indexRow++) {
-                        let cluster:any=[]
-                        for (let indexCluster = 0; indexCluster < 3; indexCluster++) {
-                            let value=0;
-                            for (let indexCol = 0; indexCol < Object.keys(tmpDataPerfomance[indexRow]).length; indexCol++) {
-                                value += Math.pow((tmpDataPerfomance[indexRow][tmpHeader[indexCol].value]
-                                    - tmpDataPerfomance[indexCentroid[indexCluster]][tmpHeader[indexCol].value]), 2);
-                            }
-                            cluster={...cluster,
-                                [`JC${(indexCluster+1)}`]: parseFloat((Math.sqrt(value)).toFixed(4))
-                            };
-                            if(indexRow===0){
-                                header=[...header,
-                                    {
-                                        label: `JC${(indexCluster+1)}`,
-                                        value: `JC${(indexCluster+1)}`
-                                    }
-                                ];
-                            }
-                        }
-                        const clusterMin = Object.keys(cluster).sort((a, b)=> cluster[a]-cluster[b]);
-                        const indexCluster = Object.keys(cluster).findIndex((key)=> cluster[key]===cluster[clusterMin[0]]);
-                        dataPerformance=[...dataPerformance, 
-                            {
-                                ...cluster,
-                                'min': cluster[clusterMin[0]],
-                                'cluster': 'C'+(indexCluster+1)
-                            }
-                        ]
-                    }
-                    // break
-                }else {
-                    // SUSUN DATA CENTROID CLUSTER
-                    let dataCentroid:any=[]
-                    for (let index = 0; index < 3; index++) {
-                        let centroid={}
-                        for (let indexCol = 0; indexCol < Object.keys(originalDataPerformance[index]).length; indexCol++) {
-                            let value:number=0
-                            for (let indexRow = 0; indexRow < originalDataPerformance.length; indexRow++) {
-                                if(index===0){
-                                    if(tmpDataPerfomance[indexRow]?.cluster==="C1"){
-                                        value+= originalDataPerformance[indexRow]
-                                            [
-                                                originalHeaderPerformance[indexCol]?.value ?? 0
-                                            ]
-                                    }
-                                }else if(index==1){
-                                    if(tmpDataPerfomance[indexRow]?.cluster==="C2"){
-                                        value+= originalDataPerformance[indexRow]
-                                            [
-                                                originalHeaderPerformance[indexCol]?.value ?? 0
-                                            ]
-                                    }
-                                } else {
-                                    if(tmpDataPerfomance[indexRow]?.cluster==="C3"){
-                                        value+= originalDataPerformance[indexRow]
-                                            [
-                                                originalHeaderPerformance[indexCol]?.value ?? 0
-                                            ]
-                                    }
-                                }
-
-                            }
-                            centroid={...centroid,
-                                [originalHeaderPerformance[indexCol]?.value]: 
-                                    parseFloat((value/totalCluster[`c${(index+1)}`]).toFixed(4))
-                            }
-                        }
-                        dataCentroid=[...dataCentroid, centroid]
-                    }
-
-                    for (let indexRow = 0; indexRow < originalDataPerformance.length; indexRow++) {
-                        let cluster:any=[]
-                        for (let indexCluster = 0; indexCluster < dataCentroid.length; indexCluster++) {
-                            let value=0;
-                            for (let indexCol = 0; indexCol < Object.keys(originalDataPerformance[indexRow]).length; indexCol++) {
-                                value += Math.pow((originalDataPerformance[indexRow][originalHeaderPerformance[indexCol].value]
-                                    - dataCentroid[indexCluster][originalHeaderPerformance[indexCol].value]), 2);
-                            }
-                            cluster={...cluster,
-                                [`JC${(indexCluster+1)}`]: parseFloat((Math.sqrt(value)).toFixed(4))
-                            };
-                            if(indexRow===0){
-                                header=[...header,
-                                    {
-                                        label: `JC${(indexCluster+1)}`,
-                                        value: `JC${(indexCluster+1)}`
-                                    }
-                                ];
-                            }
-                        }
-                        const clusterMin = Object.keys(cluster).sort((a, b)=> cluster[a]-cluster[b]);
-                        const indexCluster = Object.keys(cluster).findIndex((key)=> cluster[key]===cluster[clusterMin[0]]);
-                        dataPerformance=[...dataPerformance, 
-                            {
-                                ...cluster,
-                                'min': cluster[clusterMin[0]],
-                                'cluster': 'C'+(indexCluster+1)
-                            }
-                        ]
-                    }
+                    dataPerformance=[...dataPerformance,
+                        valueRow
+                    ]
                 }
-
-                totalCluster = dataPerformance.reduce((totalCLuster:{c1: number, c2:number, c3:number},item:any)=>{
-                    if(item.cluster==="C1") totalCLuster.c1 += 1 ;
-                    if(item.cluster==="C2") totalCLuster.c2 += 1 ;
-                    if(item.cluster==="C3") totalCLuster.c3 += 1 ;
-                    return totalCLuster
-                }, { c1: 0, c2: 0, c3: 0 });
-
-                dataCluster=[...dataCluster,
-                    totalCluster
-                ]
-                
-                let sheetName = indexIterasi===0 ? 'Performance' : 'Interasi '+indexIterasi
-                if(indexIterasi!==0){
-                    header= [
-                        ...header,
+            } else if (indexIteration===1){
+                for (let indexRow = 0; indexRow < tmpDataPerformance.length; indexRow++) {
+                    let cluster:any=[]
+                    for (let indexCluster = 0; indexCluster < 3; indexCluster++) {
+                        let value=0;
+                        for (let indexCol = 0; indexCol < Object.keys(tmpDataPerformance[indexRow]).length; indexCol++) {
+                            value += Math.pow((tmpDataPerformance[indexRow][tmpHeader[indexCol].value]
+                                - tmpDataPerformance[indexCentroid[indexCluster]][tmpHeader[indexCol].value]), 2);
+                        }
+                        cluster={...cluster,
+                            [`JC${(indexCluster+1)}`]: parseFloat((Math.sqrt(value)).toFixed(4))
+                        };
+                        if(indexRow===0){
+                            header=[...header,
+                                {
+                                    label: `JC${(indexCluster+1)}`,
+                                    value: `JC${(indexCluster+1)}`
+                                }
+                            ];
+                        }
+                    }
+                    const clusterMin = Object.keys(cluster).sort((a, b)=> cluster[a]-cluster[b]);
+                    const indexCluster = Object.keys(cluster).findIndex((key)=> cluster[key]===cluster[clusterMin[0]]);
+                    dataPerformance=[...dataPerformance, 
                         {
-                            label: 'Nilai Min',
-                            value: 'min'
-                        },
-                        {
-                            label: 'Cluster',
-                            value: 'cluster'
+                            ...cluster,
+                            'min': cluster[clusterMin[0]],
+                            'cluster': 'C'+(indexCluster+1)
                         }
                     ]
                 }
-                tmpDataPerfomance=[...dataPerformance]
+                // break
+            }else {
+                // SUSUN DATA CENTROID CLUSTER
+                let dataCentroid:any=[]
+                for (let index = 0; index < 3; index++) {
+                    let centroid={}
+                    for (let indexCol = 0; indexCol < Object.keys(originalDataPerformance[index]).length; indexCol++) {
+                        let value:number=0
+                        for (let indexRow = 0; indexRow < originalDataPerformance.length; indexRow++) {
+                            if(index===0){
+                                if(tmpDataPerformance[indexRow]?.cluster==="C1"){
+                                    value+= originalDataPerformance[indexRow]
+                                        [
+                                            originalHeaderPerformance[indexCol]?.value ?? 0
+                                        ]
+                                }
+                            }else if(index==1){
+                                if(tmpDataPerformance[indexRow]?.cluster==="C2"){
+                                    value+= originalDataPerformance[indexRow]
+                                        [
+                                            originalHeaderPerformance[indexCol]?.value ?? 0
+                                        ]
+                                }
+                            } else {
+                                if(tmpDataPerformance[indexRow]?.cluster==="C3"){
+                                    value+= originalDataPerformance[indexRow]
+                                        [
+                                            originalHeaderPerformance[indexCol]?.value ?? 0
+                                        ]
+                                }
+                            }
 
-                data = [
-                    ...data,
-                    {
-                        sheet: sheetName,
-                        columns: [
-                            ...header
-                        ],
-                        content: [
-                            ...dataPerformance
-                        ],
+                        }
+                        centroid={...centroid,
+                            [originalHeaderPerformance[indexCol]?.value]: 
+                                parseFloat((value/totalCluster[`c${(index+1)}`]).toFixed(4))
+                        }
                     }
-                ];
+                    dataCentroid=[...dataCentroid, centroid]
+                }
 
-                
-                if(indexIterasi===0){
-                    originalHeaderPerformance=[...header];
-                    originalDataPerformance=[...dataPerformance];
+                for (let indexRow = 0; indexRow < originalDataPerformance.length; indexRow++) {
+                    let cluster:any=[]
+                    for (let indexCluster = 0; indexCluster < dataCentroid.length; indexCluster++) {
+                        let value=0;
+                        for (let indexCol = 0; indexCol < Object.keys(originalDataPerformance[indexRow]).length; indexCol++) {
+                            value += Math.pow((originalDataPerformance[indexRow][originalHeaderPerformance[indexCol].value]
+                                - dataCentroid[indexCluster][originalHeaderPerformance[indexCol].value]), 2);
+                        }
+                        cluster={...cluster,
+                            [`JC${(indexCluster+1)}`]: parseFloat((Math.sqrt(value)).toFixed(4))
+                        };
+                        if(indexRow===0){
+                            header=[...header,
+                                {
+                                    label: `JC${(indexCluster+1)}`,
+                                    value: `JC${(indexCluster+1)}`
+                                }
+                            ];
+                        }
+                    }
+                    const clusterMin = Object.keys(cluster).sort((a, b)=> cluster[a]-cluster[b]);
+                    const indexCluster = Object.keys(cluster).findIndex((key)=> cluster[key]===cluster[clusterMin[0]]);
+                    dataPerformance=[...dataPerformance, 
+                        {
+                            ...cluster,
+                            'min': cluster[clusterMin[0]],
+                            'cluster': 'C'+(indexCluster+1)
+                        }
+                    ]
                 }
-                
-                tmpHeader=[...header]
-                if(totalCluster.c1===oldCluster.c1 && totalCluster.c2===oldCluster.c2 && totalCluster.c3 === oldCluster.c3){
-                    statusLoop=false
-                }
-                oldCluster={...totalCluster}
-                header=[]
-                indexIterasi++
             }
 
-            data= [...data,
-                {
-                    sheet: 'Data Cluster',
-                    columns: [
-                        { label: 'C1', value:'c1'},
-                        { label: 'C2', value:'c2'},
-                        { label: 'C3', value:'c3'},
-                    ],
-                    content: [...dataCluster]
-                }
+            totalCluster = dataPerformance.reduce((totalCLuster:{c1: number, c2:number, c3:number},item:any)=>{
+                if(item.cluster==="C1") totalCLuster.c1 += 1 ;
+                if(item.cluster==="C2") totalCLuster.c2 += 1 ;
+                if(item.cluster==="C3") totalCLuster.c3 += 1 ;
+                return totalCLuster
+            }, { c1: 0, c2: 0, c3: 0 });
+
+            dataCluster=[...dataCluster,
+                totalCluster
             ]
-
-            let settings = {
-                fileName: "DataIterasi", 
-                extraLength: 3,
-                writeMode: "writeFile", 
-                writeOptions: {},
-                RTL: true,
+            
+            let sheetName = indexIteration===0 ? 'Performance' : 'Interasi '+indexIteration
+            if(indexIteration!==0){
+                header= [
+                    ...header,
+                    {
+                        label: 'Nilai Min',
+                        value: 'min'
+                    },
+                    {
+                        label: 'Cluster',
+                        value: 'cluster'
+                    }
+                ]
             }
+            tmpDataPerformance=[...dataPerformance]
 
-            const buffer = xlsx(data, settings)
-            res.writeHead(200, {
-                "Content-Type": "application/octet-stream",
-                "Content-disposition": "attachment; filename=DataIterasi.xlsx",
-            })
-            res.end(buffer)
-        });
+            data = [
+                ...data,
+                {
+                    sheet: sheetName,
+                    columns: [
+                        ...header
+                    ],
+                    content: [
+                        ...dataPerformance
+                    ],
+                }
+            ];
+
+            
+            if(indexIteration===0){
+                originalHeaderPerformance=[...header];
+                originalDataPerformance=[...dataPerformance];
+            }
+            
+            tmpHeader=[...header]
+            if(totalCluster.c1===oldCluster.c1 && totalCluster.c2===oldCluster.c2 && totalCluster.c3 === oldCluster.c3){
+                statusLoop=false
+            }
+            oldCluster={...totalCluster}
+            header=[]
+            indexIteration++
+        }
+
+        data= [...data,
+            {
+                sheet: 'Data Cluster',
+                columns: [
+                    { label: 'C1', value:'c1'},
+                    { label: 'C2', value:'c2'},
+                    { label: 'C3', value:'c3'},
+                ],
+                content: [...dataCluster]
+            }
+        ]
+
+        let settings = {
+            fileName: "DataIterasi", 
+            extraLength: 3,
+            writeMode: "writeFile", 
+            writeOptions: {},
+            RTL: true,
+        }
+
+        const buffer = xlsx(data, settings)
+        res.writeHead(200, {
+            "Content-Type": "application/octet-stream",
+            "Content-disposition": "attachment; filename=DataIterasi.xlsx",
+        })
+        res.end(buffer)
     } catch (error) {
         let message = errorType
         message.message.msg = `${error}`
@@ -288,12 +283,13 @@ const processKmeans = async (req:Request<{}, {}, {}, {subVariableId:string, fact
 const Performance = async (req:Request, res:Response) => {
     try {
         let dataPerformance:any=[]
-        let dataExcel:any=[]
+        let dataExcel = JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
         const bobot = JSON.parse(fs.readFileSync('data/bobot.json', 'utf8'));
-        fs.createReadStream('data.csv')
-        .pipe(csv())
-        .on('data', (data) => dataExcel.push(data))
-        .on('end', async () => {
+        // fs.createReadStream('data.csv')
+        // .pipe(csv())
+        // .on('data', (data) => dataExcel.push(data))
+        // .on('end', async () => {
+        
             const subVariable = await Model.subVariables.findMany({
                 where: {
                     km: 'yes'
@@ -340,7 +336,7 @@ const Performance = async (req:Request, res:Response) => {
                 status: true,
                 data: dataPerformance
             })
-        })
+        // })
     } catch (error) {
         let message = errorType
         message.message.msg = `${error}`
