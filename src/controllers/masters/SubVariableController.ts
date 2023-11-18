@@ -181,7 +181,8 @@ const getDataSelect = async (req:Request<{}, {}, {}, SubVariablesQueryInterface>
             where: {
                 name: {
                     contains: query.name ?? ''
-                }
+                },
+                km: "yes"
             },
             take: 20
         })

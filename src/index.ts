@@ -10,12 +10,21 @@ import { knowledgeManagement } from "./routers/knowledgeManagements";
 import { AccessToken } from "./controllers/auth/middlewareController";
 import { expertQuestionnaire } from "./routers/expertQuestionnaires";
 import { Fuzzy } from "./routers/fuzzy";
-import { Questionnaire } from "./routers/questionnaire";
+import { Import, Questionnaire } from "./routers/questionnaire";
+import { DashboardRouter } from "./routers/dashboard";
 
 const app = express()
 app.use(cors()); // Parse JSON requests
 app.use(bodyParser.json()); // Parse JSON requests
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use((req, res, next) => {
+    res.setTimeout(18000, () => {
+      // Handle timeout, misalnya mengirimkan tanggapan timeout
+      res.status(503).send('Request timeout');
+    });
+  
+    next();
+  });
 
 app.use('/auth', login)
 app.use('/users', user)
@@ -27,6 +36,8 @@ app.use('/knowledge-managements', knowledgeManagement)
 app.use('/expert-questionnaires', expertQuestionnaire)
 app.use('/fuzzy', Fuzzy)
 app.use('/questionnaire', Questionnaire)
+app.use('/dashboard', DashboardRouter)
+app.use('/import', Import)
 app.use('/download',express.static('public'))
 
 app.listen(3000, ()=> console.log('server run ip 127.0.0.1:3000'))

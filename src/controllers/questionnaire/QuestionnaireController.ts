@@ -61,7 +61,18 @@ const postData = async (req:Request, res:Response) => {
         let dataRespondent = {...data};
         delete dataRespondent.questionary
         let pushData:any={}
-        pushData={...pushData, name: data.name, respondent: data}
+        pushData={...pushData, 
+            name: data.name,
+            faculty: data.faculty,
+            gender: data.gender,
+            group: data.group,
+            lastStudy: data.lastStudy,
+            skill: data.skill,
+            status: data.status,
+            studyProgram: data.studyProgram,
+            university: data.university,
+            respondent: data
+        }
         for (let index = 0; index < data.questionary.length; index++) {
             if(data.questionary[index]){
                 pushData={...pushData, [data.questionary[index].label]:data.questionary[index].value ?? ''}

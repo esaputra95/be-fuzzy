@@ -3,17 +3,17 @@ import { errorType } from "#root/helpers/errorType";
 import Model from "#root/services/PrismaService";
 import { Request, Response } from "express";
 import fs from 'fs';
-import xlsx, { IJsonSheet } from "json-as-xlsx"
+import xlsx from "json-as-xlsx"
 import { Prisma } from "@prisma/client";
 import { handleValidationError } from "#root/helpers/handleValidationError";
 
-const processKmeans = async (req:Request<{}, {}, {}, {subVariableId:string, factorId: string}>, res:Response) => {
+const processKmeans = async ({}, res:Response) => {
     try {
         // DATA CENTROID INDEX 0, 58, 167
         let indexCentroid = [0, 58, 167]
         let dataExcel:any= JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
         const bobot = JSON.parse(fs.readFileSync('data/bobot.json', 'utf8'));
-        let data: IJsonSheet[] = []
+        let data: any[] = []
         let dataCluster:any=[]
 
         const subVariable = await Model.subVariables.findMany({
@@ -36,7 +36,6 @@ const processKmeans = async (req:Request<{}, {}, {}, {subVariableId:string, fact
         let oldCluster:any={}
         let indexIteration=0
         let statusLoop=true;
-
         let totalCluster
         let originalDataPerformance:any=[];
         let originalHeaderPerformance:any=[]
@@ -229,9 +228,22 @@ const processKmeans = async (req:Request<{}, {}, {}, {subVariableId:string, fact
                 originalHeaderPerformance=[...header];
                 originalDataPerformance=[...dataPerformance];
             }
-            
             tmpHeader=[...header]
+
             if(totalCluster.c1===oldCluster.c1 && totalCluster.c2===oldCluster.c2 && totalCluster.c3 === oldCluster.c3){
+                fs.writeFileSync('data/finalIteration.json', JSON.stringify(dataPerformance, null, 2), 'utf8');
+                let dataCentroid:any=[]
+                for (let indexCluster = 0; indexCluster < indexCentroid.length; indexCluster++) {
+                    dataCentroid=[
+                        ...dataCentroid,
+                        originalDataPerformance[indexCentroid[indexCluster]]
+                    ];
+                }
+                fs.writeFileSync('data/centroid.json', JSON.stringify(dataCentroid, null, 2), 'utf8');
+                fs.writeFileSync('data/indexCentroid.json', JSON.stringify(indexCentroid, null, 2), 'utf8');
+                fs.writeFileSync('data/headerIndicator.json', JSON.stringify(originalHeaderPerformance, null, 2), 'utf8');
+                fs.writeFileSync('data/dataPerformance.json', JSON.stringify(originalDataPerformance, null, 2), 'utf8');
+                fs.writeFileSync('data/totalCLuster.json', JSON.stringify(totalCluster, null, 2), 'utf8');
                 statusLoop=false
             }
             oldCluster={...totalCluster}
@@ -251,6 +263,88 @@ const processKmeans = async (req:Request<{}, {}, {}, {subVariableId:string, fact
             }
         ]
 
+        fs.writeFileSync('data/kmeans.json', JSON.stringify(data, null, 2), 'utf8');
+        const dataResponse= [...data];
+        dataResponse.shift()
+        
+        res.status(200).json({
+            statue: true, 
+            message: 'Success Get Performance',
+            data: dataResponse
+        })
+    } catch (error) {
+        console.log({error});
+        
+        let message = errorType
+        message.message.msg = `${error}`
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            message =  await handleValidationError(error)
+        }
+        res.status(message.status).json({
+            status: false,
+            errors: [
+                message.message
+            ]
+        })
+    }
+}
+
+const calculationCentroid = async (req:Request, res:Response) => {
+    try {
+        const dataPerformance = JSON.parse(fs.readFileSync('data/dataPerformance.json', 'utf8'));
+        const headerIndicator = JSON.parse(fs.readFileSync('data/headerIndicator.json', 'utf8'));
+        const indexCentroid = JSON.parse(fs.readFileSync('data/indexCentroid.json', 'utf8'));
+        const cluster = JSON.parse(fs.readFileSync('data/finalIteration.json', 'utf8'));
+        const totalCluster = JSON.parse(fs.readFileSync('data/totalCluster.json', 'utf8'));
+        let dataKmeans:any=[]
+        for (let indexCluster = 0; indexCluster < indexCentroid.length; indexCluster++) {
+            let rowKmeans:any={}
+            let total:number=0
+            for (let indexPerformance = 0; indexPerformance < dataPerformance.length; indexPerformance++) {
+                for (let indexHeader = 0; indexHeader < headerIndicator.length; indexHeader++) {
+                    let value:number=parseFloat(rowKmeans[headerIndicator[indexHeader].value]??0)
+                    if(indexCluster===0 && cluster[indexPerformance].cluster==="C1"){
+                        value +=parseFloat(dataPerformance[indexPerformance][headerIndicator[indexHeader].value])
+                    }
+                    if(indexCluster===1 && cluster[indexPerformance].cluster==="C2"){
+                        value += parseFloat(dataPerformance[indexPerformance][headerIndicator[indexHeader].value]) 
+                    }
+                    if(indexCluster===2 && cluster[indexPerformance].cluster==="C3"){
+                        value +=parseFloat(dataPerformance[indexPerformance][headerIndicator[indexHeader].value]) 
+                    }
+                    
+                    rowKmeans={
+                        ...rowKmeans,
+                        [headerIndicator[indexHeader].value]: value
+                    }
+                }
+            }
+
+            
+            let newDataKmeans:any={}
+            for (const key in rowKmeans) {
+                newDataKmeans={
+                    ...newDataKmeans,
+                    [key]: parseFloat((rowKmeans[key]/totalCluster[`c${(indexCluster+1)}`]).toFixed(4))
+                }
+            }
+            dataKmeans=[...dataKmeans, newDataKmeans]
+        }
+
+        fs.writeFileSync('data/kmeansCentroid.json', JSON.stringify(dataKmeans, null, 2), 'utf8');
+        res.status(200).json({
+            data: dataKmeans
+        })
+    } catch (error) {
+        console.log({error});
+        
+    }
+}
+
+const compileExcel = async ({}, res:Response) => {
+    try {
+        const data:any= JSON.parse(fs.readFileSync('data/kmeans.json', 'utf8'));
+
         let settings = {
             fileName: "DataIterasi", 
             extraLength: 3,
@@ -266,77 +360,81 @@ const processKmeans = async (req:Request<{}, {}, {}, {subVariableId:string, fact
         })
         res.end(buffer)
     } catch (error) {
-        let message = errorType
-        message.message.msg = `${error}`
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-            message =  await handleValidationError(error)
-        }
-        res.status(message.status).json({
-            status: false,
-            errors: [
-                message.message
-            ]
-        })
+        
     }
 }
 
 const Performance = async (req:Request, res:Response) => {
     try {
         let dataPerformance:any=[]
+        let totalPerformance:any={}
         let dataExcel = JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
         const bobot = JSON.parse(fs.readFileSync('data/bobot.json', 'utf8'));
-        // fs.createReadStream('data.csv')
-        // .pipe(csv())
-        // .on('data', (data) => dataExcel.push(data))
-        // .on('end', async () => {
-        
-            const subVariable = await Model.subVariables.findMany({
-                where: {
-                    km: 'yes'
-                },
-                select: {
-                    id: true,
-                    code: true
-                }
-            });
-            const factor = await Model.factors.findMany({
-                select: {
-                    id: true,
-                    code: true
-                }
-            });
 
-            for (let indexExcel = 0; indexExcel < dataExcel.length; indexExcel++) {
-                let valueRow:any=[]
-                for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
-                    for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
-                        const knowledgeManagement = await Model.knowledgeManagement.count({
-                            where: {
-                                subVariableId: subVariable[indexSub].id,
-                                factorId: factor[indexFactor].id
-                            }
-                        })
-                        for (let index = 0; index < knowledgeManagement; index++) {
-                            const value = dataExcel[indexExcel]
-                                [`${factor[indexFactor].code}_${subVariable[indexSub].code}${(index+1)}`]
-                                * bobot[`${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`];
-                            valueRow=[...valueRow, {
-                                label: factor[indexFactor].code+'_'+subVariable[indexSub].code+(index+1),
-                                value: value
-                            }]
+        const subVariable = await Model.subVariables.findMany({
+            where: {
+                km: 'yes'
+            },
+            select: {
+                id: true,
+                code: true
+            }
+        });
+        const factor = await Model.factors.findMany({
+            select: {
+                id: true,
+                code: true
+            }
+        });
+
+        for (let indexExcel = 0; indexExcel < dataExcel.length; indexExcel++) {
+            let valueRow:any=[]
+            valueRow=[...valueRow, {
+                label: 'name',
+                value: dataExcel[indexExcel]['name']
+            }]
+            for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
+                for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
+                    const knowledgeManagement = await Model.knowledgeManagement.count({
+                        where: {
+                            subVariableId: subVariable[indexSub].id,
+                            factorId: factor[indexFactor].id
                         }
+                    })
+                    for (let index = 0; index < knowledgeManagement; index++) {
+                        const value = dataExcel[indexExcel]
+                            [`${factor[indexFactor].code}_${subVariable[indexSub].code}${(index+1)}`]
+                            * bobot[`${factor[indexFactor].code}_${subVariable[indexSub].code}${index+1}`];
+                        valueRow=[...valueRow, {
+                            label: factor[indexFactor].code+'_'+subVariable[indexSub].code+(index+1),
+                            value: parseFloat(value.toFixed(4))
+                        }]
+
+                        let total = parseFloat(
+                            totalPerformance[factor[indexFactor].code+'_'+subVariable[indexSub].code+(index+1)]??0)
+                            +parseFloat(value+'')
+                        
+                        totalPerformance={
+                            ...totalPerformance, 
+                            [factor[indexFactor].code+'_'+subVariable[indexSub].code+(index+1)]: 
+                            parseFloat(total.toFixed(4))
+                        }
+                        
                     }
                 }
-                dataPerformance=[...dataPerformance,
-                    valueRow
-                ]
             }
+            dataPerformance=[...dataPerformance,
+                valueRow
+            ]
+        }
+        
+        fs.writeFileSync('data/performance.json', JSON.stringify(dataPerformance, null, 2), 'utf8');
+        fs.writeFileSync('data/totalPerformance.json', JSON.stringify(totalPerformance, null, 2), 'utf8');
 
-            res.status(200).json({
-                status: true,
-                data: dataPerformance
-            })
-        // })
+        res.status(200).json({
+            status: true,
+            data: dataPerformance
+        })
     } catch (error) {
         let message = errorType
         message.message.msg = `${error}`
@@ -843,4 +941,12 @@ const download = async (req: Request, res:Response) => {
     res.download('DataIterasi.xlsx')
 }
 
-export { InversMatriks, Perangkingan, processKmeans, download, Performance }
+export { 
+    InversMatriks,
+    Perangkingan,
+    processKmeans,
+    download,
+    Performance,
+    compileExcel,
+    calculationCentroid
+}

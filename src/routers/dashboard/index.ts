@@ -1,0 +1,1 @@
+export { default as DashboardRouter } from '#root/routers/dashboard/dashboardRouter'
