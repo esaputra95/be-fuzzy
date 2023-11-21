@@ -336,8 +336,14 @@ const calculationCentroid = async (req:Request, res:Response) => {
             data: dataKmeans
         })
     } catch (error) {
-        console.log({error});
-        
+        let message = errorType
+        message.message.msg = `${error}`
+        res.status(message.status).json({
+            status: false,
+            errors: [
+                message.message
+            ]
+        })
     }
 }
 
@@ -484,7 +490,7 @@ const InversMatriks = async (req:Request<{}, {}, {}, {subVariableId:string, fact
     }
 }
 
-const Perangkingan = async (req:Request, res:Response) => {
+const Ranking = async (req:Request, res:Response) => {
     try {
         const subVariable = await Model.subVariables.findMany({
             where: {
@@ -941,12 +947,32 @@ const download = async (req: Request, res:Response) => {
     res.download('DataIterasi.xlsx')
 }
 
+const dataCentroid = async ({}, res:Response) => {
+    try {
+        let dataCentroid = JSON.parse(fs.readFileSync('data/centroid.json', 'utf8'));
+        res.status(200).json({
+            status: true,
+            data: dataCentroid
+        })
+    } catch (error) {
+        let message = errorType
+        message.message.msg = `${error}`
+        res.status(message.status).json({
+            status: false,
+            errors: [
+                message.message
+            ]
+        })
+    }
+}
+
 export { 
     InversMatriks,
-    Perangkingan,
+    Ranking,
     processKmeans,
     download,
     Performance,
     compileExcel,
-    calculationCentroid
+    calculationCentroid,
+    dataCentroid
 }
