@@ -1,4 +1,8 @@
-import { dataDecision, dataIR, dataInvers } from "#root/helpers/dataDefault";
+import { 
+    dataDecision,
+    dataIR,
+    dataInvers
+} from "#root/helpers/dataDefault";
 import { errorType } from "#root/helpers/errorType";
 import Model from "#root/services/PrismaService";
 import { Request, Response } from "express";
@@ -7,10 +11,15 @@ import xlsx from "json-as-xlsx"
 import { Prisma } from "@prisma/client";
 import { handleValidationError } from "#root/helpers/handleValidationError";
 
-const processKmeans = async ({}, res:Response) => {
+const processKmeans = async (req:Request, res:Response) => {
     try {
         // DATA CENTROID INDEX 0, 58, 167
-        let indexCentroid = [0, 58, 167]
+        const body = req.query
+        let indexCentroid = [
+            body.centroid1 ? parseInt(body.centroid1+'')-1 : 0, 
+            body.centroid2 ? parseInt(body.centroid2+'')-1 : 0, 
+            body.centroid3 ? parseInt(body.centroid3+'')-1 : 0, 
+        ]
         let dataExcel:any= JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
         const bobot = JSON.parse(fs.readFileSync('data/bobot.json', 'utf8'));
         let data: any[] = []
@@ -370,7 +379,7 @@ const compileExcel = async ({}, res:Response) => {
     }
 }
 
-const Performance = async (req:Request, res:Response) => {
+const Performance = async ({}, res:Response) => {
     try {
         let dataPerformance:any=[]
         let totalPerformance:any={}
