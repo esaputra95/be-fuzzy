@@ -104,6 +104,8 @@ const getData = async (req:Request, res:Response) => {
         let dataResponse:any=[];
         let limit:number = parseInt(req.params.limit ?? 20)
         const questionnaire = await JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
+        console.log(questionnaire.length);
+        
         for (let index = (questionnaire.length-1); index >= 0; index--) {
             dataResponse=[...dataResponse,
                 questionnaire[index]
@@ -122,4 +124,25 @@ const getData = async (req:Request, res:Response) => {
     }
 }
 
-export { getIndicator, postData, getData }
+const duplicateData = async () => {
+    try {
+        const questionnaire = await JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
+        let newQuestionnaire:any= [];
+        newQuestionnaire=[...questionnaire];
+        for (let index = 0; index < questionnaire.length; index++) {
+            if(newQuestionnaire.length>=500) break;
+            newQuestionnaire=[
+                {
+                    ...questionnaire[index],
+                    name: questionnaire[index]['name']+(index+1),
+                },
+                ...newQuestionnaire
+            ]
+        }
+        fs.writeFileSync('data/questionnaire.json', JSON.stringify(newQuestionnaire, null, 2), 'utf8');
+    } catch (error) {
+        
+    }
+}
+
+export { getIndicator, postData, getData, duplicateData }

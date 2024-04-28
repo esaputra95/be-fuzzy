@@ -1,8 +1,9 @@
 import express from "express";
-import { getIndicator, postData, getData } from '#controllers/questionnaire/QuestionnaireController'
+import { getIndicator, postData, getData, duplicateData } from '#controllers/questionnaire/QuestionnaireController'
 const route = express.Router()
 
 route.post('/', postData);
+route.post('/duplicate', duplicateData);
 route.get('/', getData);
 route.get('/indicator', getIndicator);
 

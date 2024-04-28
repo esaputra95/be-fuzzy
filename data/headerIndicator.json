@@ -12,30 +12,6 @@
     "value": "KC_PP3"
   },
   {
-    "label": "KC_PP4",
-    "value": "KC_PP4"
-  },
-  {
-    "label": "KC_PP5",
-    "value": "KC_PP5"
-  },
-  {
-    "label": "KC_PP6",
-    "value": "KC_PP6"
-  },
-  {
-    "label": "KC_PP7",
-    "value": "KC_PP7"
-  },
-  {
-    "label": "KC_PP8",
-    "value": "KC_PP8"
-  },
-  {
-    "label": "KC_PP9",
-    "value": "KC_PP9"
-  },
-  {
     "label": "KC_PB1",
     "value": "KC_PB1"
   },
@@ -48,34 +24,6 @@
     "value": "KC_PB3"
   },
   {
-    "label": "KC_PB4",
-    "value": "KC_PB4"
-  },
-  {
-    "label": "KC_PB5",
-    "value": "KC_PB5"
-  },
-  {
-    "label": "KC_PB6",
-    "value": "KC_PB6"
-  },
-  {
-    "label": "KC_PB7",
-    "value": "KC_PB7"
-  },
-  {
-    "label": "KC_PB8",
-    "value": "KC_PB8"
-  },
-  {
-    "label": "KC_PB9",
-    "value": "KC_PB9"
-  },
-  {
-    "label": "KC_PB10",
-    "value": "KC_PB10"
-  },
-  {
     "label": "KC_PM1",
     "value": "KC_PM1"
   },
@@ -86,14 +34,6 @@
   {
     "label": "KC_PM3",
     "value": "KC_PM3"
-  },
-  {
-    "label": "KC_PM4",
-    "value": "KC_PM4"
-  },
-  {
-    "label": "KC_PM5",
-    "value": "KC_PM5"
   },
   {
     "label": "KC_UP1",
@@ -112,22 +52,6 @@
     "value": "KC_PK2"
   },
   {
-    "label": "KC_PK3",
-    "value": "KC_PK3"
-  },
-  {
-    "label": "KC_PK4",
-    "value": "KC_PK4"
-  },
-  {
-    "label": "KC_PK5",
-    "value": "KC_PK5"
-  },
-  {
-    "label": "KC_PK6",
-    "value": "KC_PK6"
-  },
-  {
     "label": "KA_PP1",
     "value": "KA_PP1"
   },
@@ -138,26 +62,6 @@
   {
     "label": "KA_PP3",
     "value": "KA_PP3"
-  },
-  {
-    "label": "KA_PP4",
-    "value": "KA_PP4"
-  },
-  {
-    "label": "KA_PP5",
-    "value": "KA_PP5"
-  },
-  {
-    "label": "KA_PP6",
-    "value": "KA_PP6"
-  },
-  {
-    "label": "KA_PP7",
-    "value": "KA_PP7"
-  },
-  {
-    "label": "KA_PP8",
-    "value": "KA_PP8"
   },
   {
     "label": "KA_PB1",
@@ -172,18 +76,6 @@
     "value": "KA_PB3"
   },
   {
-    "label": "KA_PB4",
-    "value": "KA_PB4"
-  },
-  {
-    "label": "KA_PB5",
-    "value": "KA_PB5"
-  },
-  {
-    "label": "KA_PB6",
-    "value": "KA_PB6"
-  },
-  {
     "label": "KA_PM1",
     "value": "KA_PM1"
   },
@@ -194,14 +86,6 @@
   {
     "label": "KA_PM3",
     "value": "KA_PM3"
-  },
-  {
-    "label": "KA_PM4",
-    "value": "KA_PM4"
-  },
-  {
-    "label": "KA_PM5",
-    "value": "KA_PM5"
   },
   {
     "label": "KA_UP1",
@@ -220,10 +104,6 @@
     "value": "KA_PK2"
   },
   {
-    "label": "KA_PK3",
-    "value": "KA_PK3"
-  },
-  {
     "label": "KS_PP1",
     "value": "KS_PP1"
   },
@@ -234,18 +114,6 @@
   {
     "label": "KS_PP3",
     "value": "KS_PP3"
-  },
-  {
-    "label": "KS_PP4",
-    "value": "KS_PP4"
-  },
-  {
-    "label": "KS_PP5",
-    "value": "KS_PP5"
-  },
-  {
-    "label": "KS_PP6",
-    "value": "KS_PP6"
   },
   {
     "label": "KS_PB1",
@@ -260,14 +128,6 @@
     "value": "KS_PB3"
   },
   {
-    "label": "KS_PB4",
-    "value": "KS_PB4"
-  },
-  {
-    "label": "KS_PB5",
-    "value": "KS_PB5"
-  },
-  {
     "label": "KS_PM1",
     "value": "KS_PM1"
   },
@@ -278,14 +138,6 @@
   {
     "label": "KS_PM3",
     "value": "KS_PM3"
-  },
-  {
-    "label": "KS_PM4",
-    "value": "KS_PM4"
-  },
-  {
-    "label": "KS_PM5",
-    "value": "KS_PM5"
   },
   {
     "label": "KS_UP1",
@@ -304,14 +156,6 @@
     "value": "KS_PK2"
   },
   {
-    "label": "KS_PK3",
-    "value": "KS_PK3"
-  },
-  {
-    "label": "KS_PK4",
-    "value": "KS_PK4"
-  },
-  {
     "label": "KH_PP1",
     "value": "KH_PP1"
   },
@@ -322,30 +166,6 @@
   {
     "label": "KH_PP3",
     "value": "KH_PP3"
-  },
-  {
-    "label": "KH_PP4",
-    "value": "KH_PP4"
-  },
-  {
-    "label": "KH_PP5",
-    "value": "KH_PP5"
-  },
-  {
-    "label": "KH_PP6",
-    "value": "KH_PP6"
-  },
-  {
-    "label": "KH_PP7",
-    "value": "KH_PP7"
-  },
-  {
-    "label": "KH_PP8",
-    "value": "KH_PP8"
-  },
-  {
-    "label": "KH_PP9",
-    "value": "KH_PP9"
   },
   {
     "label": "KH_PB1",
@@ -360,14 +180,6 @@
     "value": "KH_PB3"
   },
   {
-    "label": "KH_PB4",
-    "value": "KH_PB4"
-  },
-  {
-    "label": "KH_PB5",
-    "value": "KH_PB5"
-  },
-  {
     "label": "KH_PM1",
     "value": "KH_PM1"
   },
@@ -380,14 +192,6 @@
     "value": "KH_PM3"
   },
   {
-    "label": "KH_PM4",
-    "value": "KH_PM4"
-  },
-  {
-    "label": "KH_PM5",
-    "value": "KH_PM5"
-  },
-  {
     "label": "KH_UP1",
     "value": "KH_UP1"
   },
@@ -396,32 +200,12 @@
     "value": "KH_UP2"
   },
   {
-    "label": "KH_UP3",
-    "value": "KH_UP3"
-  },
-  {
-    "label": "KH_UP4",
-    "value": "KH_UP4"
-  },
-  {
-    "label": "KH_UP5",
-    "value": "KH_UP5"
-  },
-  {
     "label": "KH_PK1",
     "value": "KH_PK1"
   },
   {
     "label": "KH_PK2",
     "value": "KH_PK2"
-  },
-  {
-    "label": "KH_PK3",
-    "value": "KH_PK3"
-  },
-  {
-    "label": "KH_PK4",
-    "value": "KH_PK4"
   },
   {
     "label": "KP_PP1",
@@ -436,22 +220,6 @@
     "value": "KP_PP3"
   },
   {
-    "label": "KP_PP4",
-    "value": "KP_PP4"
-  },
-  {
-    "label": "KP_PP5",
-    "value": "KP_PP5"
-  },
-  {
-    "label": "KP_PP6",
-    "value": "KP_PP6"
-  },
-  {
-    "label": "KP_PP7",
-    "value": "KP_PP7"
-  },
-  {
     "label": "KP_PB1",
     "value": "KP_PB1"
   },
@@ -462,14 +230,6 @@
   {
     "label": "KP_PB3",
     "value": "KP_PB3"
-  },
-  {
-    "label": "KP_PB4",
-    "value": "KP_PB4"
-  },
-  {
-    "label": "KP_PB5",
-    "value": "KP_PB5"
   },
   {
     "label": "KP_PM1",
@@ -484,34 +244,6 @@
     "value": "KP_PM3"
   },
   {
-    "label": "KP_PM4",
-    "value": "KP_PM4"
-  },
-  {
-    "label": "KP_PM5",
-    "value": "KP_PM5"
-  },
-  {
-    "label": "KP_PM6",
-    "value": "KP_PM6"
-  },
-  {
-    "label": "KP_PM7",
-    "value": "KP_PM7"
-  },
-  {
-    "label": "KP_PM8",
-    "value": "KP_PM8"
-  },
-  {
-    "label": "KP_PM9",
-    "value": "KP_PM9"
-  },
-  {
-    "label": "KP_PM10",
-    "value": "KP_PM10"
-  },
-  {
     "label": "KP_UP1",
     "value": "KP_UP1"
   },
@@ -520,27 +252,11 @@
     "value": "KP_UP2"
   },
   {
-    "label": "KP_UP3",
-    "value": "KP_UP3"
-  },
-  {
-    "label": "KP_UP4",
-    "value": "KP_UP4"
-  },
-  {
     "label": "KP_PK1",
     "value": "KP_PK1"
   },
   {
     "label": "KP_PK2",
     "value": "KP_PK2"
-  },
-  {
-    "label": "KP_PK3",
-    "value": "KP_PK3"
-  },
-  {
-    "label": "KP_PK4",
-    "value": "KP_PK4"
   }
 ]
