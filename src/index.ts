@@ -18,7 +18,7 @@ app.use(cors()); // Parse JSON requests
 app.use(bodyParser.json()); // Parse JSON requests
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use((req, res, next) => {
-    res.setTimeout(18000, () => {
+    res.setTimeout(1800000, () => {
       // Handle timeout, misalnya mengirimkan tanggapan timeout
       res.status(503).send('Request timeout');
     });

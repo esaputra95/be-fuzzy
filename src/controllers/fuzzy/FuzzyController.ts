@@ -17,9 +17,11 @@ const processKmeans = async (req:Request, res:Response) => {
         const body = req.query
         let indexCentroid = [
             body.centroid1 ? parseInt(body.centroid1+'')-1 : 0, 
-            body.centroid2 ? parseInt(body.centroid2+'')-1 : 0, 
-            body.centroid3 ? parseInt(body.centroid3+'')-1 : 0, 
-        ]
+            body.centroid2 ? parseInt(body.centroid2+'')-2 : 0, 
+            body.centroid3 ? parseInt(body.centroid3+'')-2 : 0, 
+        ];
+        console.log({indexCentroid});
+        
         let dataExcel:any= JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
         const bobot = JSON.parse(fs.readFileSync('data/bobot.json', 'utf8'));
         let data: any[] = []
@@ -383,6 +385,8 @@ const Performance = async ({}, res:Response) => {
     try {
         let dataPerformance:any=[]
         let totalPerformance:any={}
+        let totalPerformanceReturn:any=[]
+        let averagePerformance:any=[]
         let dataExcel = JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
         const bobot = JSON.parse(fs.readFileSync('data/bobot.json', 'utf8'));
 
@@ -428,7 +432,6 @@ const Performance = async ({}, res:Response) => {
                         let total = parseFloat(
                             totalPerformance[factor[indexFactor].code+'_'+subVariable[indexSub].code+(index+1)]??0)
                             +parseFloat(value+'')
-                        
                         totalPerformance={
                             ...totalPerformance, 
                             [factor[indexFactor].code+'_'+subVariable[indexSub].code+(index+1)]: 
@@ -442,13 +445,35 @@ const Performance = async ({}, res:Response) => {
                 valueRow
             ]
         }
+
+        for (const key in totalPerformance) {
+            averagePerformance=[
+                ...averagePerformance,
+                {
+                    label: key,
+                    value: (totalPerformance[key]/dataPerformance.length).toFixed(4)
+                }
+            ]
+            totalPerformanceReturn=[
+                ...totalPerformanceReturn,
+                {
+                    label: key,
+                    value: totalPerformance[key]
+                }
+            ]
+        }
+        
         
         fs.writeFileSync('data/performance.json', JSON.stringify(dataPerformance, null, 2), 'utf8');
         fs.writeFileSync('data/totalPerformance.json', JSON.stringify(totalPerformance, null, 2), 'utf8');
+        
 
         res.status(200).json({
             status: true,
-            data: dataPerformance
+            data: [...dataPerformance, 
+                [{label:'name', value: 'Total'}, ...totalPerformanceReturn],
+                [{label:'name', value: 'Rata-Rata'}, ...averagePerformance]
+            ]
         })
     } catch (error) {
         let message = errorType
