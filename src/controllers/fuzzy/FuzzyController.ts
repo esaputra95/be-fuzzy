@@ -367,7 +367,7 @@ const compileExcel = async ({}, res:Response) => {
             extraLength: 3,
             writeMode: "writeFile", 
             writeOptions: {},
-            RTL: true,
+            RTL: false,
         }
 
         const buffer = xlsx(data, settings)
@@ -394,6 +394,9 @@ const Performance = async ({}, res:Response) => {
             where: {
                 km: 'yes'
             },
+            orderBy: {
+                id: 'asc',
+            },
             select: {
                 id: true,
                 code: true
@@ -403,6 +406,9 @@ const Performance = async ({}, res:Response) => {
             select: {
                 id: true,
                 code: true
+            },
+            orderBy: {
+                id: 'asc'
             }
         });
 
@@ -412,12 +418,15 @@ const Performance = async ({}, res:Response) => {
                 label: 'name',
                 value: dataExcel[indexExcel]['name']
             }]
-            for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
                 for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
+            for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
                     const knowledgeManagement = await Model.knowledgeManagement.count({
                         where: {
                             subVariableId: subVariable[indexSub].id,
                             factorId: factor[indexFactor].id
+                        },
+                        orderBy: {
+                            id: 'asc'
                         }
                     })
                     for (let index = 0; index < knowledgeManagement; index++) {
@@ -1000,6 +1009,48 @@ const dataCentroid = async ({}, res:Response) => {
     }
 }
 
+const jsonToExcel = async ({}, res:Response) => {
+    try {
+        const data:any= JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
+
+        let settings = {
+            fileName: "AYAM GORENG", // Name of the resulting spreadsheet
+            extraLength: 3, // A bigger number means that columns will be wider
+            writeMode: "writeFile", // The available parameters are 'WriteFile' and 'write'. This setting is optional. Useful in such cases https://docs.sheetjs.com/docs/solutions/output#example-remote-file
+            writeOptions: {}, // Style options from https://docs.sheetjs.com/docs/api/write-options
+            RTL: false,
+        }
+
+        let headerExcel:any=[]
+        for (const key in data[0]) {
+            headerExcel=[
+                ...headerExcel,
+                {
+                    label:key, value:key
+                }
+            ]
+        }
+
+        // data.splice(0, 1)
+        
+        const buffer = xlsx([
+            {
+                sheet:'Data Questionnaire',
+                columns: headerExcel,
+                content: data
+            }
+        ], settings)
+        res.writeHead(200, {
+            "Content-Type": "application/octet-stream",
+            "Content-disposition": "attachment; filename=AYAM GORENG.xlsx",
+        })
+        res.end(buffer)
+    } catch (error) {
+        console.log({error});
+        
+    }
+}
+
 export { 
     InversMatriks,
     Ranking,
@@ -1008,5 +1059,6 @@ export {
     Performance,
     compileExcel,
     calculationCentroid,
-    dataCentroid
+    dataCentroid,
+    jsonToExcel
 }

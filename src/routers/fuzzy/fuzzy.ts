@@ -7,7 +7,8 @@ import {
     Performance,
     compileExcel,
     calculationCentroid,
-    dataCentroid
+    dataCentroid,
+    jsonToExcel
 } from "#controllers/fuzzy/FuzzyController"
 const route = express.Router()
 
@@ -19,5 +20,6 @@ route.get('/performance', Performance);
 route.post('/compile-excel', compileExcel);
 route.get('/calculation-centroid', calculationCentroid);
 route.get('/centroid', dataCentroid);
+route.get('/json-to-excel', jsonToExcel);
 
 export default route
