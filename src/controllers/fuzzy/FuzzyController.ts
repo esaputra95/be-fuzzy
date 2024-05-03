@@ -17,8 +17,8 @@ const processKmeans = async (req:Request, res:Response) => {
         const body = req.query
         let indexCentroid = [
             body.centroid1 ? parseInt(body.centroid1+'')-1 : 0, 
-            body.centroid2 ? parseInt(body.centroid2+'')-2 : 0, 
-            body.centroid3 ? parseInt(body.centroid3+'')-2 : 0, 
+            body.centroid2 ? parseInt(body.centroid2+'')-1 : 0, 
+            body.centroid3 ? parseInt(body.centroid3+'')-1 : 0, 
         ];
         console.log({indexCentroid});
         
@@ -418,8 +418,8 @@ const Performance = async ({}, res:Response) => {
                 label: 'name',
                 value: dataExcel[indexExcel]['name']
             }]
-                for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
-            for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
+            for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
+                for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
                     const knowledgeManagement = await Model.knowledgeManagement.count({
                         where: {
                             subVariableId: subVariable[indexSub].id,
