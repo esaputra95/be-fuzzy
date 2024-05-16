@@ -20,9 +20,14 @@ const processKmeans = async (req:Request, res:Response) => {
             body.centroid2 ? parseInt(body.centroid2+'')-1 : 0, 
             body.centroid3 ? parseInt(body.centroid3+'')-1 : 0, 
         ];
-        console.log({indexCentroid});
         
-        let dataExcel:any= JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
+        let dataJson:any= JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
+        let dataExcel:any
+        if(body.university){
+            dataExcel = dataJson.filter((e:any)=>e.university===body.university);
+        }else{
+            dataExcel=dataJson;
+        }
         const bobot = JSON.parse(fs.readFileSync('data/bobot.json', 'utf8'));
         let data: any[] = []
         let dataCluster:any=[]
@@ -381,15 +386,20 @@ const compileExcel = async ({}, res:Response) => {
     }
 }
 
-const Performance = async ({}, res:Response) => {
+const Performance = async (req:Request, res:Response) => {
     try {
         let dataPerformance:any=[]
         let totalPerformance:any={}
         let totalPerformanceReturn:any=[]
         let averagePerformance:any=[]
-        let dataExcel = JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
+        let data = JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
+        let dataExcel:any
+        if(req.query.university){
+            dataExcel = data.filter((e:any)=>e.university===req.query.university)
+        }else{
+            dataExcel = data;
+        }
         const bobot = JSON.parse(fs.readFileSync('data/bobot.json', 'utf8'));
-
         const subVariable = await Model.subVariables.findMany({
             where: {
                 km: 'yes'
@@ -807,11 +817,12 @@ const countData = async (count:number, query: {subVariableId: string, factorId: 
         }
         lamda.pop();
         let valueLamda = parseFloat((totalAverage/lamda.length).toFixed(4))
-        let valueCi = parseFloat(((valueLamda-lengthIndicator)/(lengthIndicator-1)).toFixed(4))
+        let valueCi = ((valueLamda-lengthIndicator)/(lengthIndicator-1)).toFixed(4)
         lamda=[...lamda, [valueLamda]]
         lamda=[...lamda, [valueCi]]
         lamda=[...lamda, [dataIR[lengthIndicator-1]]]
-        lamda=[...lamda, [parseFloat((valueCi/dataIR[lengthIndicator-1]).toFixed(4))]]
+        let cr = parseFloat((parseFloat(valueCi??0)/dataIR[lengthIndicator-1]).toFixed(4));
+        lamda=[...lamda, [cr===Infinity ? 'Infinity' : cr]]
         
         // TAHAPAN TFN FUZZY
         let stageFuzzy:any=[];
