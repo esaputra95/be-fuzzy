@@ -22,7 +22,7 @@ const processKmeans = async (req:Request, res:Response) => {
         ];
         
         let dataJson:any= JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
-        let dataExcel:any
+        let dataExcel:any=[]
         if(body.university){
             dataExcel = dataJson.filter((e:any)=>e.university===body.university);
         }else{
