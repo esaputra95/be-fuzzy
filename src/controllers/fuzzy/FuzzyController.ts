@@ -62,8 +62,8 @@ const processKmeans = async (req:Request, res:Response) => {
             if(indexIteration===0){
                 for (let indexExcel = 0; indexExcel < dataExcel.length; indexExcel++) {
                     let valueRow:any={}
-                    for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
-                        for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
+                    for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
+                        for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
                             const knowledgeManagement = await Model.knowledgeManagement.count({
                                 where: {
                                     subVariableId: subVariable[indexSub].id,
@@ -286,7 +286,8 @@ const processKmeans = async (req:Request, res:Response) => {
         res.status(200).json({
             statue: true, 
             message: 'Success Get Performance',
-            data: dataResponse
+            data: dataResponse,
+            centroid: dataCluster
         })
     } catch (error) {
         console.log({error});
@@ -822,7 +823,7 @@ const countData = async (count:number, query: {subVariableId: string, factorId: 
         lamda=[...lamda, [valueCi]]
         lamda=[...lamda, [dataIR[lengthIndicator-1]]]
         let cr = parseFloat((parseFloat(valueCi??0)/dataIR[lengthIndicator-1]).toFixed(4));
-        lamda=[...lamda, [cr===Infinity ? 'Infinity' : cr]]
+        lamda=[...lamda, [cr===Infinity ? '∞' : cr]]
         
         // TAHAPAN TFN FUZZY
         let stageFuzzy:any=[];

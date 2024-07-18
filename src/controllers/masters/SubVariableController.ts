@@ -24,6 +24,7 @@ const getData = async (req:Request<{}, {}, {}, SubVariablesQueryInterface>, res:
         }
         const data = await Model.subVariables.findMany({
             where: {
+                km: 'yes',
                 ...filter
             },
             include: {

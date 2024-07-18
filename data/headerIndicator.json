@@ -12,46 +12,6 @@
     "value": "KC_PP3"
   },
   {
-    "label": "KC_PB1",
-    "value": "KC_PB1"
-  },
-  {
-    "label": "KC_PB2",
-    "value": "KC_PB2"
-  },
-  {
-    "label": "KC_PB3",
-    "value": "KC_PB3"
-  },
-  {
-    "label": "KC_PM1",
-    "value": "KC_PM1"
-  },
-  {
-    "label": "KC_PM2",
-    "value": "KC_PM2"
-  },
-  {
-    "label": "KC_PM3",
-    "value": "KC_PM3"
-  },
-  {
-    "label": "KC_UP1",
-    "value": "KC_UP1"
-  },
-  {
-    "label": "KC_UP2",
-    "value": "KC_UP2"
-  },
-  {
-    "label": "KC_PK1",
-    "value": "KC_PK1"
-  },
-  {
-    "label": "KC_PK2",
-    "value": "KC_PK2"
-  },
-  {
     "label": "KA_PP1",
     "value": "KA_PP1"
   },
@@ -62,46 +22,6 @@
   {
     "label": "KA_PP3",
     "value": "KA_PP3"
-  },
-  {
-    "label": "KA_PB1",
-    "value": "KA_PB1"
-  },
-  {
-    "label": "KA_PB2",
-    "value": "KA_PB2"
-  },
-  {
-    "label": "KA_PB3",
-    "value": "KA_PB3"
-  },
-  {
-    "label": "KA_PM1",
-    "value": "KA_PM1"
-  },
-  {
-    "label": "KA_PM2",
-    "value": "KA_PM2"
-  },
-  {
-    "label": "KA_PM3",
-    "value": "KA_PM3"
-  },
-  {
-    "label": "KA_UP1",
-    "value": "KA_UP1"
-  },
-  {
-    "label": "KA_UP2",
-    "value": "KA_UP2"
-  },
-  {
-    "label": "KA_PK1",
-    "value": "KA_PK1"
-  },
-  {
-    "label": "KA_PK2",
-    "value": "KA_PK2"
   },
   {
     "label": "KS_PP1",
@@ -116,46 +36,6 @@
     "value": "KS_PP3"
   },
   {
-    "label": "KS_PB1",
-    "value": "KS_PB1"
-  },
-  {
-    "label": "KS_PB2",
-    "value": "KS_PB2"
-  },
-  {
-    "label": "KS_PB3",
-    "value": "KS_PB3"
-  },
-  {
-    "label": "KS_PM1",
-    "value": "KS_PM1"
-  },
-  {
-    "label": "KS_PM2",
-    "value": "KS_PM2"
-  },
-  {
-    "label": "KS_PM3",
-    "value": "KS_PM3"
-  },
-  {
-    "label": "KS_UP1",
-    "value": "KS_UP1"
-  },
-  {
-    "label": "KS_UP2",
-    "value": "KS_UP2"
-  },
-  {
-    "label": "KS_PK1",
-    "value": "KS_PK1"
-  },
-  {
-    "label": "KS_PK2",
-    "value": "KS_PK2"
-  },
-  {
     "label": "KH_PP1",
     "value": "KH_PP1"
   },
@@ -166,46 +46,6 @@
   {
     "label": "KH_PP3",
     "value": "KH_PP3"
-  },
-  {
-    "label": "KH_PB1",
-    "value": "KH_PB1"
-  },
-  {
-    "label": "KH_PB2",
-    "value": "KH_PB2"
-  },
-  {
-    "label": "KH_PB3",
-    "value": "KH_PB3"
-  },
-  {
-    "label": "KH_PM1",
-    "value": "KH_PM1"
-  },
-  {
-    "label": "KH_PM2",
-    "value": "KH_PM2"
-  },
-  {
-    "label": "KH_PM3",
-    "value": "KH_PM3"
-  },
-  {
-    "label": "KH_UP1",
-    "value": "KH_UP1"
-  },
-  {
-    "label": "KH_UP2",
-    "value": "KH_UP2"
-  },
-  {
-    "label": "KH_PK1",
-    "value": "KH_PK1"
-  },
-  {
-    "label": "KH_PK2",
-    "value": "KH_PK2"
   },
   {
     "label": "KP_PP1",
@@ -220,6 +60,54 @@
     "value": "KP_PP3"
   },
   {
+    "label": "KC_PB1",
+    "value": "KC_PB1"
+  },
+  {
+    "label": "KC_PB2",
+    "value": "KC_PB2"
+  },
+  {
+    "label": "KC_PB3",
+    "value": "KC_PB3"
+  },
+  {
+    "label": "KA_PB1",
+    "value": "KA_PB1"
+  },
+  {
+    "label": "KA_PB2",
+    "value": "KA_PB2"
+  },
+  {
+    "label": "KA_PB3",
+    "value": "KA_PB3"
+  },
+  {
+    "label": "KS_PB1",
+    "value": "KS_PB1"
+  },
+  {
+    "label": "KS_PB2",
+    "value": "KS_PB2"
+  },
+  {
+    "label": "KS_PB3",
+    "value": "KS_PB3"
+  },
+  {
+    "label": "KH_PB1",
+    "value": "KH_PB1"
+  },
+  {
+    "label": "KH_PB2",
+    "value": "KH_PB2"
+  },
+  {
+    "label": "KH_PB3",
+    "value": "KH_PB3"
+  },
+  {
     "label": "KP_PB1",
     "value": "KP_PB1"
   },
@@ -230,6 +118,54 @@
   {
     "label": "KP_PB3",
     "value": "KP_PB3"
+  },
+  {
+    "label": "KC_PM1",
+    "value": "KC_PM1"
+  },
+  {
+    "label": "KC_PM2",
+    "value": "KC_PM2"
+  },
+  {
+    "label": "KC_PM3",
+    "value": "KC_PM3"
+  },
+  {
+    "label": "KA_PM1",
+    "value": "KA_PM1"
+  },
+  {
+    "label": "KA_PM2",
+    "value": "KA_PM2"
+  },
+  {
+    "label": "KA_PM3",
+    "value": "KA_PM3"
+  },
+  {
+    "label": "KS_PM1",
+    "value": "KS_PM1"
+  },
+  {
+    "label": "KS_PM2",
+    "value": "KS_PM2"
+  },
+  {
+    "label": "KS_PM3",
+    "value": "KS_PM3"
+  },
+  {
+    "label": "KH_PM1",
+    "value": "KH_PM1"
+  },
+  {
+    "label": "KH_PM2",
+    "value": "KH_PM2"
+  },
+  {
+    "label": "KH_PM3",
+    "value": "KH_PM3"
   },
   {
     "label": "KP_PM1",
@@ -244,12 +180,76 @@
     "value": "KP_PM3"
   },
   {
+    "label": "KC_UP1",
+    "value": "KC_UP1"
+  },
+  {
+    "label": "KC_UP2",
+    "value": "KC_UP2"
+  },
+  {
+    "label": "KA_UP1",
+    "value": "KA_UP1"
+  },
+  {
+    "label": "KA_UP2",
+    "value": "KA_UP2"
+  },
+  {
+    "label": "KS_UP1",
+    "value": "KS_UP1"
+  },
+  {
+    "label": "KS_UP2",
+    "value": "KS_UP2"
+  },
+  {
+    "label": "KH_UP1",
+    "value": "KH_UP1"
+  },
+  {
+    "label": "KH_UP2",
+    "value": "KH_UP2"
+  },
+  {
     "label": "KP_UP1",
     "value": "KP_UP1"
   },
   {
     "label": "KP_UP2",
     "value": "KP_UP2"
+  },
+  {
+    "label": "KC_PK1",
+    "value": "KC_PK1"
+  },
+  {
+    "label": "KC_PK2",
+    "value": "KC_PK2"
+  },
+  {
+    "label": "KA_PK1",
+    "value": "KA_PK1"
+  },
+  {
+    "label": "KA_PK2",
+    "value": "KA_PK2"
+  },
+  {
+    "label": "KS_PK1",
+    "value": "KS_PK1"
+  },
+  {
+    "label": "KS_PK2",
+    "value": "KS_PK2"
+  },
+  {
+    "label": "KH_PK1",
+    "value": "KH_PK1"
+  },
+  {
+    "label": "KH_PK2",
+    "value": "KH_PK2"
   },
   {
     "label": "KP_PK1",
