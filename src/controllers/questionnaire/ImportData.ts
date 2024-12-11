@@ -5,12 +5,12 @@ import fs from 'fs';
 export const importData = async (req:Request, res:Response) =>{
     try {
         let results:any=[]
-        fs.createReadStream('data.csv')
+        fs.createReadStream('data/sheet1.csv')
         .pipe(csvParser())
         .on('data', (data) => results.push(data))
         .on('end', () => {
             console.log({results});
-            fs.writeFileSync('data/questionnaire.json', JSON.stringify(results, null, 2), 'utf8');
+            fs.writeFileSync('data/questionnaire2.json', JSON.stringify(results, null, 2), 'utf8');
         })
     } catch (error) {
         res.status(500).json({

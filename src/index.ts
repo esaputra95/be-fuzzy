@@ -3,6 +3,7 @@ import 'module-alias/register';
 import 'dotenv/config'
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import KMeans from 'ml-kmeans';
 
 import login from './routers/auth/index'
 import { factor, indicator, subVariable, user, variable } from "./routers/masters";
@@ -17,14 +18,33 @@ const app = express()
 app.use(cors()); // Parse JSON requests
 app.use(bodyParser.json()); // Parse JSON requests
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use((req, res, next) => {
-    res.setTimeout(1800000, () => {
-      // Handle timeout, misalnya mengirimkan tanggapan timeout
-      res.status(503).send('Request timeout');
-    });
+// app.use((req, res, next) => {
+//     res.setTimeout(1800000, () => {
+//       // Handle timeout, misalnya mengirimkan tanggapan timeout
+//       res.status(503).send('Request timeout');
+//     });
   
-    next();
-  });
+//     next();
+//   });
+
+  
+ 
+// app.post('/cluster', (req, res) => {
+//   const data = req.body; // Ambil data array dari request body
+//   const numberOfClusters = 3; // Tentukan jumlah cluster yang diinginkan
+
+//   try {
+//       const result = KMeans(data, numberOfClusters);
+
+//       res.json({
+//           clusters: result.clusters,      // Indeks cluster untuk setiap data
+//           centroids: result.centroids,    // Titik centroid dari setiap cluster
+//       });
+//   } catch (error) {
+//       console.error('Clustering error:', error);
+//       res.status(500).json({ error: 'Clustering failed' });
+//   }
+// });
 
 app.use('/auth', login)
 app.use('/users', user)

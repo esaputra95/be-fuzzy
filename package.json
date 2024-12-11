@@ -30,6 +30,7 @@
     "express-validator": "^7.0.1",
     "json-as-xlsx": "^2.5.5",
     "jsonwebtoken": "^9.0.2",
+    "ml-kmeans": "^6.0.0",
     "module-alias": "^2.2.3",
     "moment": "^2.29.4",
     "ts-node": "^10.9.1"
