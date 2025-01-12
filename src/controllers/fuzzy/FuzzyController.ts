@@ -10,7 +10,16 @@ import fs from 'fs';
 import xlsx from "json-as-xlsx"
 import { Prisma } from "@prisma/client";
 import { handleValidationError } from "#root/helpers/handleValidationError";
-
+const varNumber:any = {
+    'UIN Sultan Syarif Kasim Riau':'RI',
+    'UIN Sjech M. Djamil Djambek Bukittinggi': 'BT',
+    'UIN Imam Bonjol Padang': 'UP',
+    'UIN Mahmud Yunus Batusangkar': 'BS',
+    'UIN Syarif Hidayahtullah Jakarta': 'JK'
+}
+function formatNumber(number:number, length = 3) {
+    return number.toString().padStart(length, '0');
+}
 const processKmeans = async (req:Request, res:Response) => {
     try {
         // DATA CENTROID INDEX 0, 58, 167
@@ -290,8 +299,6 @@ const processKmeans = async (req:Request, res:Response) => {
             centroid: dataCluster
         })
     } catch (error) {
-        console.log({error});
-        
         let message = errorType
         message.message.msg = `${error}`
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -422,12 +429,19 @@ const Performance = async (req:Request, res:Response) => {
                 id: 'asc'
             }
         });
-
+        let univ=''
+        let number=1;
         for (let indexExcel = 0; indexExcel < dataExcel.length; indexExcel++) {
             let valueRow:any=[]
+            if(univ===dataExcel[indexExcel]['university']){
+                number++
+            }else{
+                univ=dataExcel[indexExcel]['university']
+            }
+            const newNumber = formatNumber(number);
             valueRow=[...valueRow, {
-                label: 'name',
-                value: dataExcel[indexExcel]['name']
+                label: 'Kode',
+                value: varNumber[dataExcel[indexExcel]['university']]+newNumber
             }]
             for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
                 for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
@@ -659,10 +673,10 @@ const countData = async (count:number, query: {subVariableId: string, factorId: 
         let checkNilai:number=0
         for (let indexResp = 0; indexResp < respondent.length; indexResp++) {
             let arrayData:any=[]
-            const question = respondent[indexResp].questionnaires
+            const question:any = respondent[indexResp].questionnaires
             let reduce=1;
             for (let index = 0; index < question.length; index++) {
-                checkNilai+=parseFloat(question[index].value+'' ?? 0)
+                checkNilai+=parseFloat(question[index]?.value ?? 0)
                 let value = parseInt(question[index].value+'') > 0 ? 
                     parseInt(question[index].value+'') : 
                     parseInt(question[index].value+'')* -1    

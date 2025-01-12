@@ -10,7 +10,7 @@ export const importData = async (req:Request, res:Response) =>{
         .on('data', (data) => results.push(data))
         .on('end', () => {
             console.log({results});
-            fs.writeFileSync('data/questionnaire2.json', JSON.stringify(results, null, 2), 'utf8');
+            fs.writeFileSync('data/questionnaire3.json', JSON.stringify(results, null, 2), 'utf8');
         })
     } catch (error) {
         res.status(500).json({

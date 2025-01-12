@@ -98,17 +98,35 @@ const postData = async (req:Request, res:Response) => {
         })
     }
 }
-
+const varNumber:any = {
+    'UIN Sultan Syarif Kasim Riau':'RI',
+    'UIN Sjech M. Djamil Djambek Bukittinggi': 'BT',
+    'UIN Imam Bonjol Padang': 'UP',
+    'UIN Mahmud Yunus Batusangkar': 'BS',
+    'UIN Syarif Hidayahtullah Jakarta': 'JK'
+}
+function formatNumber(number:number, length = 3) {
+    return number.toString().padStart(length, '0');
+}
 const getData = async (req:Request, res:Response) => {
     try {
         let dataResponse:any=[];
         let limit:number = parseInt(req.params.limit ?? 20)
         const questionnaire = await JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
-        console.log(questionnaire.length);
-        
+        let univ=''
+        let number=1;
         for (let index = (questionnaire.length-1); index >= 0; index--) {
+            if(univ===questionnaire[index].university){
+                number++
+            }else{
+                univ=questionnaire[index].university
+            }
+            const n = formatNumber(number);
             dataResponse=[...dataResponse,
-                questionnaire[index]
+                {
+                    ...questionnaire[index],
+                    name: varNumber[questionnaire[index].university]+n,
+                }
             ]
         }
         res.status(200).json({
