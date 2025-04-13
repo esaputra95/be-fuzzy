@@ -67,9 +67,17 @@ const processKmeans = async (req:Request, res:Response) => {
         while (statusLoop) {
             let header:any=[];
             let dataPerformance:any=[]
-            
+            let univ=''
+            let number=1;
             if(indexIteration===0){
                 for (let indexExcel = 0; indexExcel < dataExcel.length; indexExcel++) {
+                    if(univ===dataExcel[indexExcel]['university']){
+                        number++
+                    }else{
+                        univ=dataExcel[indexExcel]['university']
+                    }
+                    const newNumber = formatNumber(number);
+                    
                     let valueRow:any={}
                     for (let indexSub = 0; indexSub < subVariable.length; indexSub++) {
                         for (let indexFactor = 0; indexFactor < factor.length; indexFactor++) {
@@ -104,6 +112,9 @@ const processKmeans = async (req:Request, res:Response) => {
                         valueRow
                     ]
                 }
+
+                console.log({dataPerformance});
+                
             } else if (indexIteration===1){
                 for (let indexRow = 0; indexRow < tmpDataPerformance.length; indexRow++) {
                     let cluster:any=[]
@@ -131,6 +142,8 @@ const processKmeans = async (req:Request, res:Response) => {
                         {
                             ...cluster,
                             'min': cluster[clusterMin[0]],
+
+                            'code': 'dataExcel[indexRow][0]',
                             'cluster': 'C'+(indexCluster+1)
                         }
                     ]
@@ -201,6 +214,7 @@ const processKmeans = async (req:Request, res:Response) => {
                     dataPerformance=[...dataPerformance, 
                         {
                             ...cluster,
+                            'code': 'originalDataPerformance[indexRow][0]',
                             'min': cluster[clusterMin[0]],
                             'cluster': 'C'+(indexCluster+1)
                         }
