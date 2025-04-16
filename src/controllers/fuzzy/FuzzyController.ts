@@ -112,11 +112,11 @@ const processKmeans = async (req:Request, res:Response) => {
                         valueRow
                     ]
                 }
-
-                console.log({dataPerformance});
                 
             } else if (indexIteration===1){
                 for (let indexRow = 0; indexRow < tmpDataPerformance.length; indexRow++) {
+                    // console.log(dataExcel[indexRow]);
+                    // return 1
                     let cluster:any=[]
                     for (let indexCluster = 0; indexCluster < 3; indexCluster++) {
                         let value=0;
@@ -143,7 +143,7 @@ const processKmeans = async (req:Request, res:Response) => {
                             ...cluster,
                             'min': cluster[clusterMin[0]],
 
-                            'code': 'dataExcel[indexRow][0]',
+                            'code': dataExcel[indexRow]?.name,
                             'cluster': 'C'+(indexCluster+1)
                         }
                     ]
@@ -214,7 +214,7 @@ const processKmeans = async (req:Request, res:Response) => {
                     dataPerformance=[...dataPerformance, 
                         {
                             ...cluster,
-                            'code': 'originalDataPerformance[indexRow][0]',
+                            'code': dataExcel[indexRow]?.name,
                             'min': cluster[clusterMin[0]],
                             'cluster': 'C'+(indexCluster+1)
                         }

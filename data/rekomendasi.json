@@ -1,0 +1,434 @@
+[
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PP)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen mempersiapkan bahan ajar dengan baik"
+  },
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PP)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen memiliki kecukupan bahan ajar dan bahan tes"
+  },
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PP)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen memberikan dukungan pendampingan yang komprehensif yang mencakup dimensi akademis, psikologis, dan berorientasi pada karier untuk mendorong keberhasilan mahasiswa"
+  },
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PP)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen menghargai pendapat dan ide mahasiswa dengan mengakui pentingnya motivasi, menerapkan mekanisme umpan balik, terlibat dalam evaluasi berkelanjutan, merefleksikan praktik mengajar mereka, dan mendorong lingkungan belajar kolaboratif"
+  },
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PP)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen menerima kritik dan saran secara efektif dengan mendorong pengembangan kolaboratif, menerapkan mekanisme umpan balik terstruktur, menciptakan lingkungan yang aman untuk komunikasi terbuka, dan menunjukkan kemampuan beradaptasi"
+  },
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PP)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen memperkuat kemampuan menulis buku dengan terlibat dalam praktik reflektif, berpartisipasi dalam kelompok menulis daring, mendiskusikan tantangan menulis, memahami karakteristik penulisan akademis, menguasai proses menulis, dan menghadiri lokakarya untuk pengembangan keterampilan"
+  },
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PP)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen secara efektif menyampaikan pesan moral, etika, dan disiplin dalam kuliah mereka dengan mengintegrasikan kerangka etika, memodelkan perilaku etis, mendorong diskusi kritis, memanfaatkan studi kasus, dan menangani norma-norma disiplin. Selain itu, membimbing dosen dengan jabatan yang lebih rendah melalui program bimbingan, lokakarya, materi sumber daya, kolaborasi sejawat, mekanisme umpan balik, dan menumbuhkan budaya keterbukaan dapat meningkatkan kemampuan mereka untuk mengomunikasikan nilai-nilai penting ini secara efektif"
+  },
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PP)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen menyampaikan pidato ilmiah, mengundang praktisi sebagai pembicara tamu, dan bertindak sebagai supervisor atau penguji di universitas lain dengan mempersiapkan konten mereka secara menyeluruh, terlibat dalam praktik presentasi yang efektif, membina hubungan profesional, memberikan bimbingan, memanfaatkan teknologi, dan terus mengembangkan keterampilan mereka"
+  },
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PP)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen memahami dinamika tim dan keberagaman kepribadian dalam meningkatkan efektivitas tim, yang pada akhirnya berkontribusi pada kolaborasi yang sukses dalam lingkungan akademis. Dengan menghargai kontribusi semua anggota tim dan menumbuhkan budaya kolaborasi, akademisi dapat meningkatkan dampak kolektif mereka pada pengajaran dan penelitian"
+  },
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_PP)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen memberikan kuis, tugas, studi kasus, dan evaluasi sesuai dengan aturan dan materi kuliah yang ditetapkan dengan mengintegrasikan metode penilaian ini ke dalam praktik mengajar, menyediakan pedoman yang jelas, mendorong pembelajaran yang diatur sendiri, dan menawarkan umpan balik yang membangun. Dengan menghargai pendapat siswa dan menumbuhkan lingkungan belajar yang mendukung, pendidik dapat meningkatkan pengalaman akademis secara keseluruhan dan mempromosikan perilaku etis dan tanggung jawab di antara mahasiswa"
+  },
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_PP)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen memperoleh keterbukaan informasi dan menerapkannya dalam proses pendidikan dan pengajaran dengan memahami dan menerapkan Praktik Pendidikan Terbuka (PPT), memanfaatkan Sumber Daya Pendidikan Terbuka (SPT), menumbuhkan budaya transparansi dan kolaborasi, memanfaatkan teknologi untuk komunikasi dan kolaborasi, dan terlibat dalam pengembangan profesional berkelanjutan"
+  },
+  {
+    "label": "Pendidikan dan Pengajaran (PP)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_PP)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen memperoleh keterbukaan informasi dan menerapkannya dalam proses pendidikan dan pengajaran dengan memanfaatkan infrastruktur, fasilitas TI, dan sumber daya pendukung yang memadai. Memprioritaskan tujuan bersama, komunikasi yang efektif, dan kolaborasi, akademisi dapat menciptakan lingkungan belajar yang positif yang dapat meningkatkan keterlibatan dan keberhasilan mahasiswa. Menekankan pentingnya infrastruktur dalam menerapkan kebijakan pendidikan dan menumbuhkan suasana yang kondusif untuk penyebaran pengetahuan yang efektif"
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PB)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen mematuhi prinsip-prinsip integritas akademis, berkolaborasi dengan rekan sejawat, dan memanfaatkan tempat publikasi yang tepat, akademisi dapat menyumbangkan wawasan berharga bagi bidang mereka dan meningkatkan kualitas wacana akademis. Pentingnya menjaga integritas dalam proses penerbitan, yang penting untuk meningkatkan pengaruh akademis karya ilmiah dapat menumbuhkan budaya keunggulan dan inovasi dalam upaya penelitian dan pengajaran"
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PB)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen menerbitkan karya ilmiah mereka melalui seminar dan jurnal akademik, baik nasional maupun internasional, dengan mengidentifikasi topik penelitian yang relevan, melakukan penelitian yang ketat, menulis dan menyusun manuskrip mereka, menjalani peer review, dan menyebarluaskan temuan. Dengan memprioritaskan transparansi, kolaborasi, dan perbaikan berkelanjutan, akademisi dapat meningkatkan kualitas dan dampak penelitian mereka, berkontribusi secara berarti bagi bidang mereka dan komunitas akademis yang lebih luas"
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PB)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen menciptakan desain dan karya teknologi, serta karya seni yang dipatenkan dan karya seni yang dilindungi hak cipta, melalui proses sistematis yang melibatkan penelitian, konseptualisasi, pengembangan, perlindungan hukum, dan penyebaran. Mengintegrasikan identitas lokal dan warisan budaya ke dalam ekspresi artistik sehingga akademisi dapat berkontribusi pada kemajuan pengetahuan dan menumbuhkan budaya kreativitas dan inovasi di bidangnya"
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_PB)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen berkontribusi dalam berbagai bidang studi dan mendorong keterlibatan aktif akademisi dan mahasiswa dalam kegiatan kolaborasi di luar institusi "
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_PB)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen menerapkan prinsip manajemen kualitas untuk mengevaluasi efektivitas dan dampak kebijakan yang telah dibuat serta melakukan revisi jika diperlukan "
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_PB)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen mengidentifikasi jenis perlindungan mana yang paling sesuai untuk karya mereka"
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PB)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen partisipatif dalam membangun platform atau repositori yang menyimpan hasil penelitian yang tidak dipublikasikan, sehingga hasil-hasil tersebut dapat diakses dengan mudah oleh akademisi dan mahasiswa lainnya "
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PB)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen mempertimbangkan reputasi dan indeksasi jurnal dalam memilih tempat publikasi "
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PB)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen memiliki kreativitas dalam pameran juga dapat diperluas ke bidang seni atau teknologi, di mana produk akhir bukan hanya berupa tulisan semata tetapi juga karya visual atau multimedia "
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PB)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen mencari kesempatan untuk berpartisipasi dalam konferensi atau workshop yang relevan "
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PB)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen memilih topik yang relevan dan menarik sangat krusial "
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PB)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen memilih media massa yang tepat, baik itu koran atau majalah, yang sesuai dengan bidang penelitian untuk meningkatkan peluang tulisan bisa diterima dan dibaca oleh khalayak umum "
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_PB)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen berbagi hasil inovasi mereka melalui forum komunitas, lokakarya, seminar, atau media sosial lokal "
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_PB)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen menerapkan metodologi yang sesuai seperti Technology Acceptance Model (TAM) yang dapat membantu dalam mengukur kepuasan dan efektivitas penggunaan sistem yang dikembangkan "
+  },
+  {
+    "label": "Penelitian dan Publikasi (PB)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_PB)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen melakukan evaluasi terhadap pemanfaatan infrastruktur dan sarana yang ada di lingkungan kampus "
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PM)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen mengadakan program pelatihan atau workshop yang bertujuan untuk menyampaikan hasil penelitian atau pemikiran mereka kepada masyarakat"
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PM)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen menyusun jadwal kegiatan yang jelas dan mengomunikasikan rencana tersebut kepada masyarakat dengan baik "
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PM)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen merumuskan ide dari kegiatan PkM yang telah dilaksanakan. Menentukan tujuan dari penyuluhan atau pengembangan yang dilakukan, apakah itu untuk meningkatkan keterampilan, pengetahuan, atau menjawab masalah di masyarakat"
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_PM)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen berkolaborasi dari berbagai perguruan tinggi merancang program pengabdian yang terintegrasi dan saling melengkapi. Kolaborasi lintas disiplin dapat memperkaya pendekatan dan strategi yang digunakan "
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_PM)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen mengidentifikasi hasil atau produk dari kegiatan PkM yang berpotensi untuk dipatenkan atau diajukan HaKI. Inovasi bisa berupa teknologi tepat guna, metode pengelolaan, produk baru, atau aplikasi sistem yang diciptakan selama program "
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_PM)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen mencari sumber pendanaan dari hibah penelitian, sponsorship dari sektor privat, atau lembaga pemerintah yang memberikan dukungan untuk kegiatan PkM"
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PM)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen membangun jaringan dengan pemangku kepentingan termasuk industri, pemerintah, dan lembaga nonprofit sangat penting"
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PM)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen memanfaatkan sistem informasi manajemen pendidikan yang ada di perguruan tinggi untuk menyimpan dan mengelola hasil kegiatan PkM"
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PM)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen memfokuskan penelitian pada isu-isu yang relevan dan berkontribusi pada perkembangan ilmu pengetahuan dan masyarakat "
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PM)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen mengembangkan konsep karya terapan, dpaat berupa desain produk fisik, aplikasi digital, atau pengembangan algoritma untuk solusi spesifik. Pentingnya mengintegrasikan unsur kreativitas dan inovasi dalam desain "
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PM)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen membangun hubungan yang baik dengan mitra (industri, pemerintah, lembaga non-pemerintah, atau kelompok masyarakat) dapat memfasilitasi proses pengembangan invensi"
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PM)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen menyusun alur cerita yang mengedukasi para pembaca tentang keberhasilan program dan dampaknya dengan menarik dan komunikatif"
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_PM)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen memahami konteks dan isu yang akan diangkat melalui kolaborasi dengan mitra. Tujuan meliputi pengembangan solusi berbasis teknologi, peningkatan layanan masyarakat, atau aspek pendidikan"
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_PM)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen membuat prototipe atau versi awal dari karya yang akan diproduksi"
+  },
+  {
+    "label": "Pengabdian kepada Masyarakat (PM)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_PM)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen mengoptimalkan penggunaan sarana dan prasarana yang ada untuk melaksanakan kegiatan secara efisien dengan pemanfaatan teknologi informasi, termasuk penggunaan perangkat lunak aplikasi untuk analisis data dan presentasi"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_UP)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen mengeksplorasi peluang untuk bersaing mendapatkan penghargaan atau pengakuan dalam pertemuan ilmiah"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_UP)",
+    "type": "Sedang",
+    "rekomendasi": "memperkuat posisi buku dan meningkatkan pengakuan terhadap karya dosen dalam lingkungan pendidikan, Mengajukan kerja sama dengan sekolah atau lembaga pendidikan untuk penggunaan buku sebagai bahan ajar dalam proses pembelajaran"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_UP)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen terlibat aktif dalam pertemuan ilmiah yang berdampak luas pada kualitas pendidikan yang diberikan kepada mahasiswa"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_UP)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen membangun jejaring melalui konferensi, seminar, atau pertemuan lainnya, serta menjalin hubungan yang baik dengan kolega dan mitra di luar instansi"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_UP)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen mendaftar dan mengikuti program sertifikasi yang ditawarkan oleh lembaga resmi, seperti Badan Nasional Sertifikasi Profesi (BNSP) atau asosiasi profesi lainnya"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_UP)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen terlibat dalam pengembangan profesional secara terus-menerus, baik melalui seminar, pelatihan, maupun kolaborasi dengan institusi akademik lainnya "
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_UP)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen mengenali bidang keahlian dan minat yang mendalam dalam olahraga atau humaniora"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_UP)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen melakukan riset untuk memahami kebutuhan atau masalah yang ada di masyarakat atau industri yang menjadi sasaran. Melalui survei, wawancara, atau diskusi dengan pemangku kepentingan"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_UP)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen terlibat dalam karya seni publik, baik melalui lukisan, musik, atau pertunjukan tari, untuk memperkaya pengalaman mahasiswa dan juga membangun jaringan yang bermanfaat untuk kolaborasi di masa depan"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_UP",
+    "type": "Rendah",
+    "rekomendasi": "Dosen mengikuti pelatihan atau kursus kepemimpinan yang dapat membantu meningkatkan kemampuan dalam mengelola proyek dan memimpin tim"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_UP",
+    "type": "Sedang",
+    "rekomendasi": "Dosen membangun jejaring dengan anggota lain dalam organisasi. Melakukan diskusi, kolaborasi, dan berbagi pengetahuan antar anggota dapat menciptakan lingkungan yang positif dan mendukung pertumbuhan profesional"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_UP",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen terlibat dalam organisasi untuk berkontribusi pada pengembangan kurikulum, penyusunan pedoman akademik, dan penguatan sistem evaluasi pendidikan yang relevan dengan kebutuhan zaman "
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_UP)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen mencari tahu lembaga-lembaga yang memiliki visi dan misi sejalan dengan bidang mereka, seperti asosiasi dosen, lembaga penelitian, atau badan pemerintah yang mengatur pendidikan dan profesi"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_UP)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen disarankan untuk mengikuti mata kuliah atau pelatihan yang berkaitan dengan akreditasi, penilaian, atau sertifikasi. Termasuk pelatihan yang dilakukan oleh Lembaga Sertifikasi Profesi (LSP) atau organisasi yang dikelola pemerintah"
+  },
+  {
+    "label": "Unsur Penunjang (UP)",
+    "variabel": "Mengaplikasi Pengetahuan (Knowledge Application/ KP_UP)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen menjadi anggota tim penilai dengan latar belakang akademik yang relevan dan berpengalaman dalam bidang yang dinilai "
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PK",
+    "type": "Rendah",
+    "rekomendasi": "Dosen memperoleh sertifikasi kompetensi dalam bidang tertentu, seperti sertifikasi profesional atau pelatihan dalam teknik mengajar. Tidak hanya meningkatkan keahlian dosen tetapi juga memberikan nilai tambah dalam konteks akademik dan profesional"
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PK",
+    "type": "Sedang",
+    "rekomendasi": "Dosen memiliki pemahaman yang mendalam tentang kode etik profesi yang diterapkan di institusi dan norma yang ada. Keputusan yang diambil dalam setiap interaksi dan pengajaran harus berlandaskan pada nilai-nilai tersebut"
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Menciptakan Pengetahuan (Knowledge Create/ KC_PK",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen melakukan pelatihan mengenai keterampilan komunikasi, menerapkan umpan balik yang konstruktif, serta membuka ruang diskusi dan kolaborasi yang sehat di antara rekan-rekan mereka "
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_PK)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen mengedepankan integritas dalam pelaksanaan tugas mengajar, riset, dan pengabdian kepada masyarakat, termasuk kejujuran dalam menyampaikan informasi dan menghormati hak kekayaan intelektual"
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_PK)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen dapat menjaga rahasia jabatan dan rahasia negara"
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Mendapatkan Pengetahuan (Knowledge Acquisition/ KA_PK)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen terlebih dahulu memahami kode etik yang berlaku di lingkungan mereka yang dapat berfungsi sebagai pedoman perilaku dan standar moral yang harus diikuti untuk memastikan profesionalisme dalam menjalankan tugas "
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PK)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen membangun jejaring dengan mitra dan pemangku kepentingan lainnya untuk mengeksplorasi peluang kolaborasi di masa mendatang"
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PK)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen harus aktif mempromosikan hasil inovasi yang dihasilkan dari kegiatan PkM kepada masyarakat. Menyebarluaskan hasil ke publik akan menciptakan kesadaran mengenai manfaat dari kegiatan tersebut dan meningkatkan keikutsertaan masyarakat dalam program-program yang akan datang"
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Menyimpan Pengetahuan (Knowledge Storage/ KS_PK)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen peka terhadap kebutuhan dan harapan mahasiswa untuk menciptakan suasana belajar yang kondusif dan inovatif"
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PK)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen menunjukkan sikap mendengarkan dan menghargai pendapat dari mahasiswa serta rekan sejawat. Dengan menghargai setiap pandangan, dosen akan membangun lingkungan yang inklusif dan mendukung"
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PK)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen mematuhi semua kebijakan dan prosedur yang ditetapkan oleh institusi, termasuk yang terkait dengan pengajaran, penelitian, dan pengabdian kepada masyarakat"
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Berbagi Pengetahuan (Knowledge Sharing/ KH_PK)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen harus membangun budaya komunikasi yang terbuka dan transparan meliputi kesediaan untuk mendengarkan masukan dari mahasiswa dan rekan sejawat, serta menyampaikan informasi dengan jelas dan lugas "
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Mengapikasi Pengetahuan (Knowledge Application/ KP_PK)",
+    "type": "Rendah",
+    "rekomendasi": "Dosen mengevaluasi minat dan keterampilan mereka untuk berkontribusi di satu atau lebih bidang dalam lembaga tersebut, seperti penelitian, pengajaran, atau pengabdian masyarakat"
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Mengapikasi Pengetahuan (Knowledge Application/ KP_PK)",
+    "type": "Sedang",
+    "rekomendasi": "Dosen berkomitmen untuk melaksanakan pengajaran, penelitian, dan pengabdian kepada masyarakat dengan sebaik-baiknya. Kualitas dan ketepatan dalam melaksanakan peran akan membawa profesi dosen lebih dihargai oleh mahasiswa dan masyarakat"
+  },
+  {
+    "label": "Perilaku Kerja  (PK)",
+    "variabel": "Mengapikasi Pengetahuan (Knowledge Application/ KP_PK)",
+    "type": "Tinggi",
+    "rekomendasi": "Dosen harus memiliki integritas tinggi dalam menggunakan barang milik negara dan tidak terlibat dalam praktik curang atau penyalahgunaan wewenang "
+  }
+]
