@@ -1,5 +1,6 @@
 import express from "express";
 import { deleteData, getData, getDataById, postData, updateData, getDataForm } from "#controllers/expertQuestionnaire/ExpertQuestionnaireController"
+import { AccessToken } from "#root/controllers/auth/middlewareController";
 const route = express.Router()
 
 route.get('/', getData);

@@ -138,12 +138,17 @@ const processKmeans = async (req:Request, res:Response) => {
                     }
                     const clusterMin = Object.keys(cluster).sort((a, b)=> cluster[a]-cluster[b]);
                     const indexCluster = Object.keys(cluster).findIndex((key)=> cluster[key]===cluster[clusterMin[0]]);
+                    if(univ===dataExcel[indexRow]['university']){
+                        number++
+                    }else{
+                        univ=dataExcel[indexRow]['university']
+                    }
+                    const newNumber = formatNumber(number);
                     dataPerformance=[...dataPerformance, 
                         {
                             ...cluster,
                             'min': cluster[clusterMin[0]],
-
-                            'code': dataExcel[indexRow]?.name,
+                            'code': varNumber[dataExcel[indexRow]['university']]+newNumber,
                             'cluster': 'C'+(indexCluster+1)
                         }
                     ]
@@ -211,10 +216,16 @@ const processKmeans = async (req:Request, res:Response) => {
                     }
                     const clusterMin = Object.keys(cluster).sort((a, b)=> cluster[a]-cluster[b]);
                     const indexCluster = Object.keys(cluster).findIndex((key)=> cluster[key]===cluster[clusterMin[0]]);
+                    if(univ===dataExcel[indexRow]['university']){
+                        number++
+                    }else{
+                        univ=dataExcel[indexRow]['university']
+                    }
+                    const newNumber = formatNumber(number);
                     dataPerformance=[...dataPerformance, 
                         {
                             ...cluster,
-                            'code': dataExcel[indexRow]?.name,
+                            'code': varNumber[dataExcel[indexRow]['university']]+newNumber,
                             'min': cluster[clusterMin[0]],
                             'cluster': 'C'+(indexCluster+1)
                         }
@@ -261,7 +272,6 @@ const processKmeans = async (req:Request, res:Response) => {
                     ],
                 }
             ];
-
             
             if(indexIteration===0){
                 originalHeaderPerformance=[...header];
@@ -1091,6 +1101,30 @@ const jsonToExcel = async ({}, res:Response) => {
     }
 }
 
+const getRecommendation = async (req: Request, res:Response) => {
+    try {
+        const query:any = req.query
+        const data:any= JSON.parse(fs.readFileSync('data/rekomendasi.json', 'utf8'));
+
+        const newData = data?.filter((v:any)=>v?.type === (query?.type === 'C1' ? 'Rendah' : query?.type === 'C2' ? 'Sedang' : 'Tinggi'))
+
+        res.status(200).json({
+            status: true,
+            data: newData
+        })
+
+    } catch (error) {
+        let message = errorType
+        message.message.msg = `${error}`
+        res.status(message.status).json({
+            status: false,
+            errors: [
+                message.message
+            ]
+        })
+    }
+}
+
 export { 
     InversMatriks,
     Ranking,
@@ -1100,5 +1134,6 @@ export {
     compileExcel,
     calculationCentroid,
     dataCentroid,
-    jsonToExcel
+    jsonToExcel,
+    getRecommendation
 }

@@ -13,14 +13,11 @@ const getData = async (req:Request<{}, {}, {}, FactorsQueryInterface>, res:Respo
         const page:number = parseInt(query.page ?? 1 );
         const skip:number = (page-1)*take
         // FILTER
-        let filter:any= []
-        query.name ? filter = [...filter, {name: { contains: query.name }}] : null
-        if(filter.length > 0){
-            filter = {
-                OR: [
-                    ...filter
-                ]
-            }
+        let filter:any= {}
+        query.name ? filter = {...filter, name: { contains: query.name }} : null
+        
+        if(res.locals?.userType === 'pakar'){
+            filter = {...filter, id: res.locals?.id}
         }
         const data = await Model.respondents.findMany({
             where: {

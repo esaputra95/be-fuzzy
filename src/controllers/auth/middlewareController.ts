@@ -17,11 +17,10 @@ const AccessToken = (req:Request, res:Response, next:NextFunction) => {
         if(!authHeader) res.send(403)
         const token = authHeader.split(" ")[1]??false;
         if(token==null) return res.send(401);
-        const decoded = jwt.verify(token, '1234567890');
-        
         jwt.verify(token, '1234567890', (err, decode:any)=>{
             if(err) return res.send(403);
-            res.locals.userId = decode?.id ?? ''
+            res.locals.id = decode?.id ?? ''
+            res.locals.userType = decode?.userType
             return next()
         })
     } catch (error) {
