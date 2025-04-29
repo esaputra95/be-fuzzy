@@ -164,30 +164,34 @@ const getKmeans = async (req:Request, res:Response) => {
     try {
         const query = req.query
         let dataKmeans:any=[]
-        if(query.university || query.gender || query.faculty){
-            const quest = JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
             let newQuest:any=[]
+        if(query.university || query.gender || query.faculty || query.programStudy || query.code){
+            const quest = JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
             for (let index = 0; index < quest.length; index++) {
-                if(query.university && quest[index].university !== query.university) continue
-                if(query.gender && quest[index].gender !== query.gender) continue
-                if(query.faculty && quest[index].faculty !== query.faculty) continue
-                newQuest=[...newQuest,
+                if(query.university && String(quest[index].university).toLowerCase().trim() != String(query.university).toLowerCase().trim()) continue
+                if(query.gender && String(quest[index].gender).toLowerCase().trim() != String(query.gender).toLowerCase().trim()) continue
+                if(query.faculty && String(quest[index].faculty).toLowerCase().trim() != String(query.faculty).toLowerCase().trim()) continue
+                if (query.programStudy && String(quest[index].programStudy).toLowerCase().trim() == String(query.programStudy).toLowerCase().trim())
+                if(query.code && quest[index].code != query.code) continue
+                    newQuest=[...newQuest,
                     index
                 ]
+                
             }
+            
             const dataPerformance = JSON.parse(fs.readFileSync('data/dataPerformance.json', 'utf8'));
             const headerIndicator = JSON.parse(fs.readFileSync('data/headerIndicator.json', 'utf8'));
-            const indexCentroid = JSON.parse(fs.readFileSync('data/indexCentroid.json', 'utf8'));
+            const indexCentroid = [1,2,3];
             const cluster = JSON.parse(fs.readFileSync('data/finalIteration.json', 'utf8'));
             const totalCluster = JSON.parse(fs.readFileSync('data/totalCluster.json', 'utf8'));
             let newDataPerformance:any=[]
             for (const index of newQuest) {
+                dataPerformance[index] ?
                 newDataPerformance=[...newDataPerformance,
                     dataPerformance[index]
-                ]
+                ] : null
             }
-            
-            
+
             for (let indexCluster = 0; indexCluster < indexCentroid.length; indexCluster++) {
                 let rowKmeans:any={}
                 let total:number=0
@@ -195,13 +199,13 @@ const getKmeans = async (req:Request, res:Response) => {
                     for (let indexHeader = 0; indexHeader < headerIndicator.length; indexHeader++) {
                         let value:number=parseFloat(rowKmeans[headerIndicator[indexHeader].value]??0)
                         if(indexCluster===0 && cluster[indexPerformance].cluster==="C1"){
-                            value +=parseFloat(newDataPerformance[indexPerformance][headerIndicator[indexHeader].value])
+                            value +=parseFloat(newDataPerformance?.[indexPerformance]?.[headerIndicator[indexHeader]?.value])
                         }
                         if(indexCluster===1 && cluster[indexPerformance].cluster==="C2"){
-                            value += parseFloat(newDataPerformance[indexPerformance][headerIndicator[indexHeader].value]) 
+                            value += parseFloat(newDataPerformance?.[indexPerformance]?.[headerIndicator[indexHeader]?.value]) 
                         }
                         if(indexCluster===2 && cluster[indexPerformance].cluster==="C3"){
-                            value +=parseFloat(newDataPerformance[indexPerformance][headerIndicator[indexHeader].value]) 
+                            value +=parseFloat(newDataPerformance?.[indexPerformance]?.[headerIndicator[indexHeader]?.value]) 
                         }
                         
                         rowKmeans={
@@ -230,6 +234,8 @@ const getKmeans = async (req:Request, res:Response) => {
             data: dataKmeans
         })
     } catch (error) {
+        console.log({error});
+        
         let message = errorType
         message.message.msg = `${error}`
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -251,6 +257,8 @@ const setMaster = async (req:Request, res:Response) => {
         let university:any=[];
         let gender:any=[];
         let faculty:any=[];
+        let programStudy:any=[];
+        let name:any=[];
         
         for (const value of questionnaire) {
             if(!helper[value.university]){
@@ -271,6 +279,24 @@ const setMaster = async (req:Request, res:Response) => {
                     {label: value.faculty, value: value.faculty}
                 ]
             }
+            if(!helper[value.programStudy]){
+                helper[value.programStudy] = true;
+                programStudy=[...programStudy,
+                    {label: value.programStudy, value: value.programStudy}
+                ]
+            }
+            if(!helper[value.programStudy]){
+                helper[value.programStudy] = true;
+                programStudy=[...programStudy,
+                    {label: value.programStudy, value: value.programStudy}
+                ]
+            }
+            if(!helper[value.name]){
+                name[value.name] = true;
+                name=[...name,
+                    {label: value.name, value: value.name}
+                ]
+            }
         }
 
         res.status(200).json({
@@ -279,7 +305,9 @@ const setMaster = async (req:Request, res:Response) => {
             data: {
                 university,
                 gender,
-                faculty
+                faculty,
+                programStudy,
+                name
             }
         })
     } catch (error) {
