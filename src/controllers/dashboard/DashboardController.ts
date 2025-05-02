@@ -403,6 +403,59 @@ const getMasterProgramStudy = async (req:Request, res:Response) => {
     }
 }
 
+const getMasterCode = async (req:Request, res:Response) => {
+    try {
+        let questionnaire = JSON.parse(fs.readFileSync('data/questionnaire.json', 'utf8'));
+        if(req.query.university){
+            questionnaire = questionnaire.filter((a:any)=>a.university.trim() === (String(req.query?.university)).trim())
+        }
+        if(req.query.faculty){
+            questionnaire = questionnaire.filter((a:any)=>a.faculty.trim() === (String(req.query?.faculty)).trim())
+        }
+        if(req.query.programStudy){
+            questionnaire = questionnaire.filter((a:any)=>a.programStudy.trim() === (String(req.query?.programStudy)).trim())
+        }
+        let helper:any = {};
+        let name:any=[];
+
+        let univ=''
+        let number=1;
+        for (const value of questionnaire) {
+            if(!helper[value.programStudy]){
+                if(univ===value.university){
+                    number++
+                }else{
+                    univ=value.university
+                }
+                const n = formatNumber(number);
+                if(!helper[value.name]){
+                    name[value.name] = true;
+                    name=[...name,
+                        {label: value.code, value: value.name}
+                    ]
+                }
+            }
+        }
+        res.status(200).json({
+            status:true,
+            message: "success",
+            data: name
+        })
+    } catch (error) {
+        let message = errorType
+        message.message.msg = `${error}`
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            message =  await handleValidationError(error)
+        }
+        res.status(message.status).json({
+            status: false,
+            errors: [
+                message.message
+            ]
+        })
+    }
+}
+
 const setMaster = async (req:Request, res:Response) => {
     try {
         const {university:un} = req.query;
@@ -493,4 +546,4 @@ const setMaster = async (req:Request, res:Response) => {
     }
 }
 
-export { getBobot, getCLuster, getTotalPerformance, getKmeans, setMaster, getMasterFaculty, getMasterProgramStudy, getMasterUniversity }
+export { getBobot, getCLuster, getTotalPerformance, getKmeans, setMaster, getMasterFaculty, getMasterProgramStudy, getMasterUniversity, getMasterCode }

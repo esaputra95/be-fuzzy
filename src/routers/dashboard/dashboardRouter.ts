@@ -7,7 +7,8 @@ import {
     setMaster,
     getMasterUniversity,
     getMasterFaculty,
-    getMasterProgramStudy
+    getMasterProgramStudy,
+    getMasterCode
 } from "#controllers/dashboard/DashboardController"
 const route = express.Router()
 
@@ -19,5 +20,6 @@ route.get('/get-master', setMaster);
 route.get('/university', getMasterUniversity);
 route.get('/faculty', getMasterFaculty);
 route.get('/program-study', getMasterProgramStudy);
+route.get('/code', getMasterCode);
 
 export default route
